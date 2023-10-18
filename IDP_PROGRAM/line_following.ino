@@ -7,8 +7,8 @@ int delay_time = 20;
 #define LINE_ON_RIGHT 2
 
 // Defining directions
-#define RIGHT 1
-#define LEFT -1
+/* #define RIGHT 1
+#define LEFT -1 */
 
 
 int LFSensorReading[4]={0, 0, 0, 0};  //zeroed array for storing line sensor readings
@@ -42,17 +42,17 @@ void followLine(void) {
    {
 
      case ON_LINE:
-       motorForward();
+       Forward();
        delay(delay_time);
        break;
 
      case LINE_ON_LEFT:
-         motorTurn(LEFT);
+         Left;
          delay(delay_time);
 
      
      case LINE_ON_RIGHT:
-         motorTurn(RIGHT);
+         Right();
          delay(delay_time);
       }
 }
