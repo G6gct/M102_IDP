@@ -47,7 +47,7 @@ void followLine(void) {
        break;
 
      case LINE_ON_LEFT:
-         Left;
+         Left();
          delay(delay_time);
 
      
