@@ -10,11 +10,7 @@ int delay_time = 20;
 #define RIGHT 1
 #define LEFT -1
 
-// Define  pins for line sensors
-const int LINE_SENSOR_VLEFT = 5; 
-const int LINE_SENSOR_LEFT = 6; 
-const int LINE_SENSOR_RIGHT = 7; 
-const int LINE_SENSOR_VRIGHT = 8;
+
 int LFSensorReading[4]={0, 0, 0, 0};  //zeroed array for storing line sensor readings
 
 // Function for reading the line sensors and storing them in an array
