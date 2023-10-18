@@ -29,12 +29,6 @@ void LFSensorRead() {
 // change to junction mode:; which junction at
 }
 
-void setup() {
-  Serial.begin(9600);
-  // something something
-
-}
-
 void LineFollowStart() {
   if(    (LFSensorReading[1]== 1 )&&(LFSensorReading[2]== 0 ))  {cases = LINE_ON_RIGHT;} 
   else if((LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 0 ))  {cases = ON_LINE;}
