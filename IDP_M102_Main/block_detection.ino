@@ -6,16 +6,11 @@ int distance_detection_TOF(){
   return(true_distance);
 }
 
-
-
-int distance_detection_US(){
+void distance_detection_US(){
   float dist_t, sensity_t;
   sensity_t = analogRead(sensityPin);
   dist_t = sensity_t * MAX_RANG / ADC_SOLUTION;
   Serial.print("Distance for US is: ");
   Serial.println(dist_t);
-  return(dist_t);
+  //return(dist_t);
 }
-
-
-

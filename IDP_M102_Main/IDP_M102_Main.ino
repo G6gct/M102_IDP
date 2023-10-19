@@ -23,12 +23,12 @@ int sensityPin = A0;
 void setup() { //Setup code which only runs once
 AFMS.begin();  // Start the motor shiel up
 //Setup serial port for 9600 bits
-
+Serial.begin(9600);
 Wire.begin();
 sensor.begin(0x50); //Set up TOF sensor
 sensor.setMode(sensor.eContinuous,sensor.eHigh);
 sensor.start();
-
+//Serial. begin(9600);
 int distance_list_tof[100]; //Setup sesnor lists
 int distance_list_us[100];
 int i = 0;
@@ -45,9 +45,10 @@ pinMode(LINE_SENSOR_VRIGHT, INPUT);
 }
 
 void loop(){ //Looping code
-//digitalWrite(LED_BLINK, (millis() / 1000) % 2);
-//distance_direction()
+digitalWrite(LED_BLINK, (millis() / 1000) % 2);
+//distance_detection_US();
 followLine();
+//Left();
 }
 
 

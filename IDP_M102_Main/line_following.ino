@@ -1,7 +1,6 @@
-int cases = 0;
-int delay_time = 20;
+int delay_time = 30;
 
-// Define different cases
+/* Define different cases
 #define ON_LINE 0
 #define LINE_ON_LEFT 1       
 #define LINE_ON_RIGHT 2
@@ -30,14 +29,14 @@ void LFSensorRead() {
 }
 
 void LineFollowStart() {
-  if(    (LFSensorReading[1]== 1 )&&(LFSensorReading[2]== 0 ))  {cases = LINE_ON_RIGHT;} 
+  if(    (LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 1 ))  {cases = LINE_ON_RIGHT;} 
   else if((LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 0 ))  {cases = ON_LINE;}
-  else if((LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 1 ))  {cases = LINE_ON_LEFT;}
+  else if((LFSensorReading[1]== 1 )&&(LFSensorReading[2]== 0 ))  {cases = LINE_ON_LEFT;}
 }
 
 void followLine(void) {
   LFSensorRead(); // calls the sensor reading
-  LineFollowStart();  // calls the line sensors 
+  LineFollowStart();  // calls the line sensors
   switch (cases)
    {
 
@@ -47,12 +46,14 @@ void followLine(void) {
        break;
 
      case LINE_ON_LEFT:
-         Left();
-         delay(delay_time);
-
+       Left();
+       delay(delay_time);
+       break;
      
      case LINE_ON_RIGHT:
-         Right();
-         delay(delay_time);
-      }
+       Right();
+       delay(delay_time);
+       break;
+    
+  }
 }

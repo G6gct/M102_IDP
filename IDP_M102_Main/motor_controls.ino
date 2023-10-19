@@ -1,7 +1,7 @@
 //Motor Controls 
 void Forward(){
-MotorL->setSpeed(255);
-MotorR -> setSpeed(255);
+MotorL->setSpeed(200);
+MotorR -> setSpeed(200);
 MotorL->run(FORWARD);
 MotorR->run(FORWARD);
 //Serial.print("Going forward");
@@ -10,8 +10,8 @@ MotorR->run(FORWARD);
 }
 
 void Backward(){
-MotorL->setSpeed(255);
-MotorR -> setSpeed(255);
+MotorL->setSpeed(200);
+MotorR -> setSpeed(200);
 MotorL->run(BACKWARD);
 MotorR->run(BACKWARD);
 //Serial.print("Backward");
@@ -24,19 +24,19 @@ MotorL->setSpeed(100);
 MotorR -> setSpeed(100);
 MotorL->run(BACKWARD);
 MotorR->run(FORWARD);
-//Serial.print("Going left");
-//Serial.print("\n");
+Serial.print("Going left");
+Serial.print("\n");
 delay(20);
 }
 
 void Right(){
-MotorL->setSpeed(30);
-MotorR -> setSpeed(30);
+MotorL->setSpeed(100);
+MotorR -> setSpeed(100);
 MotorL->run(FORWARD);
 MotorR->run(BACKWARD);  
+Serial.print("Going right");
+Serial.print("\n");
 delay(20);
-//Serial.print("Going right");
-//Serial.print("\n");
 }
 
 void Stop(){
