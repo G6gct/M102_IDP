@@ -1,5 +1,5 @@
 int cases = 0;
-
+int Scases =0;
 
 //Define for port locations
 #define LED_BLINK 2
@@ -29,6 +29,10 @@ const int LINE_SENSOR_VRIGHT = 8;
 #define RIGHT_CORNER 6
 #define LEFT_CORNER
 
+#define in_box 0
+#define right_forward 1
+#define left_forward 2
+#define on_line 3
 
 // Defining directions
 #define RIGHT 1
@@ -39,3 +43,5 @@ const int LINE_SENSOR_VRIGHT = 8;
 void LFSensorRead();
 void LineSensorStart();
 void followLine();
+void StartingCases();
+void start();

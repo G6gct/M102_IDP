@@ -1,7 +1,7 @@
 //Motor Controls 
 void Forward(){
-MotorL->setSpeed(200);
-MotorR -> setSpeed(200);
+MotorL->setSpeed(100);
+MotorR -> setSpeed(100);
 MotorL->run(FORWARD);
 MotorR->run(FORWARD);
 //Serial.print("Going forward");
@@ -10,8 +10,8 @@ MotorR->run(FORWARD);
 }
 
 void Backward(){
-MotorL->setSpeed(200);
-MotorR -> setSpeed(200);
+MotorL->setSpeed(100);
+MotorR -> setSpeed(100);
 MotorL->run(BACKWARD);
 MotorR->run(BACKWARD);
 //Serial.print("Backward");
