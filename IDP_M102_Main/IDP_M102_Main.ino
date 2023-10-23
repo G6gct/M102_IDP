@@ -49,7 +49,13 @@ void loop(){ //Looping code
 //distance_detection_US();
 //followLine();
 //Left();
-start();
+while (initiate == true){
+  start();
+}
+delay(5000);
+Forward();
+delay(500);
+followLine();
 }
 
 

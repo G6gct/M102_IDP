@@ -1,6 +1,6 @@
 int cases = 0;
 int Scases =0;
-
+bool initiate = true 
 //Define for port locations
 #define LED_BLINK 2
 #define LED_DEN_LOW 3

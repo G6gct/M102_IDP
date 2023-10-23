@@ -151,6 +151,7 @@ void start(void){
     case on_line:
       Stop();
       delay(1000);
+      initiate = false 
       break;}
 }
   
