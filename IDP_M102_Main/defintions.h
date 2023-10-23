@@ -26,6 +26,8 @@ const int LINE_SENSOR_VRIGHT = 8;
 #define HORIZONTAL_LINE 3
 #define LINE_ON_VRIGHT 4
 #define LINE_ON_VLEFT 5
+#define RIGHT_CORNER 6
+#define LEFT_CORNER
 
 
 // Defining directions

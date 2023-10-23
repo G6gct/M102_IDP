@@ -57,7 +57,7 @@ xx01 line on very right (1101, 1001*, 0101*, 0001)
 0011 Right corner/ |--
 1100 Left corner/ --|
 
-to discern between junctions with heads: 
+how to discern between junctions with heads?
 */
 
 
@@ -71,8 +71,6 @@ void LineFollowStart() {
   else if((LFSensorReading[0]== 0 )&&(LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 1 )&&(LFSensorRead[3]== 1))  {cases = RIGHT_CORNER;}
   else if((LFSensorReading[0]== 1 )&&(LFSensorReading[1]== 1 )&&(LFSensorReading[2]== 0 )&&(LFSensorRead[3]== 0))  {cases = LEFT_CORNER;}
   
-
-  //To add multiple cases 
 }
 
 void followLine(void) {
@@ -107,18 +105,21 @@ void followLine(void) {
        break;
 
     case RIGHT_CORNER:
-       //90 degrees right turn function needed
-       if(    (LFSensorReading[0]== 0 )&&(LFSensorReading[1]== 1 )&&(LFSensorReading[2]== 1 )&&(LFSensorReading[3]== 0 ))  {cases = LINE_ON_RIGHT;}
-       else if((LFSensorReading[2]== 0 )&&(LFSensorReading[3]== 1 ))  {cases = LINE_ON_VRIGHT;/*INCLUDE HIGHER STEERING POWER SETTING*/}
+       Right();
        delay(delay_time/2);
        break;
     
     case LEFT_CORNER:
-       //90 degrees left turn function needed
+       Left();
        delay(delay_time/2);
        break;
 
     case HORIZONTAL_LINE:
+       Right();
+       delay(delay_time/2);
+       break;
+    
+    
        
   }
 }
