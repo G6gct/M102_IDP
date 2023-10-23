@@ -1,4 +1,4 @@
-int delay_time = 30;
+int delay_time = 100;
 
 /* Define different cases
 #define ON_LINE 0
@@ -24,17 +24,53 @@ void LFSensorRead() {
     Serial.print(" ");
   }
   Serial.println(" ");
-//3 of them at junction TODO: Code the 3 1110
-// change to junction mode:; which junction at
+
 }
 
+
+/*0000z
+0001z
+0010z
+0100z
+1000z
+0011z
+0101u
+1001u
+0110?
+1010u
+1100z
+0111?
+1011z
+1101z
+1110?
+1111z
+*/
+
+
+/*line sensing logic
+0000 on line
+x010 line on right (1010*, 0010)
+xx01 line on very right (1101, 1001*, 0101*, 0001)
+010x line on left (0101*, 0100)
+10xx line on very left (1011, 1010*, 1001*, 1000)
+1111 Horizontal line/ T junction/ t junction
+0011 Right corner/ |--
+1100 Left corner/ --|
+
+to discern between junctions with heads: 
+*/
+
+
 void LineFollowStart() {
-  if(    (LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 1 ))  {cases = LINE_ON_RIGHT;}
-  else if((LFSensorReading[0]==0  )&&(LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 0 )&&(LFSensorRead[3]== 1))  {cases = LINE_ON_VRIGHT;/*INCLUDE HIGHER STEERING POWER SETTING*/} 
-  else if((LFSensorReading[1]== 1 )&&(LFSensorReading[2]== 0 ))  {cases = LINE_ON_LEFT;}
-  else if((LFSensorReading[0]==1  )&&(LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 0 )&&(LFSensorRead[3]== 0))  {cases = LINE_ON_VLEFT;/*INCLUDE HIGHER STEERING POWER SETTING*/}
+  if(    (LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 1 )&&(LFSensorReading[3]== 0 ))  {cases = LINE_ON_RIGHT;}
+  else if((LFSensorReading[2]== 0 )&&(LFSensorReading[3]== 1 ))  {cases = LINE_ON_VRIGHT;/*INCLUDE HIGHER STEERING POWER SETTING*/} 
+  else if((LFSensorReading[0]== 0 )&&(LFSensorReading[1]== 1 )&&(LFSensorReading[2]== 0 ))  {cases = LINE_ON_LEFT;}
+  else if((LFSensorReading[0]== 1 )&&(LFSensorReading[1]== 0 ))  {cases = LINE_ON_VLEFT;/*INCLUDE HIGHER STEERING POWER SETTING*/}
   else if((LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 0 ))  {cases = ON_LINE;}
-  else if((LFSensorReading[0]==1  )&&(LFSensorReading[1]== 1 )&&(LFSensorReading[2]== 1 )&&(LFSensorRead[3]== 1))  {cases = HORIZONTAL_LINE;}
+  else if((LFSensorReading[0]== 1 )&&(LFSensorReading[1]== 1 )&&(LFSensorReading[2]== 1 )&&(LFSensorRead[3]== 1))  {cases = HORIZONTAL_LINE;}
+  else if((LFSensorReading[0]== 0 )&&(LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 1 )&&(LFSensorRead[3]== 1))  {cases = RIGHT_CORNER;}
+  else if((LFSensorReading[0]== 1 )&&(LFSensorReading[1]== 1 )&&(LFSensorReading[2]== 0 )&&(LFSensorRead[3]== 0))  {cases = LEFT_CORNER;}
+  
 
   //To add multiple cases 
 }
@@ -59,6 +95,30 @@ void followLine(void) {
        Right();
        delay(delay_time);
        break;
+
+    case LINE_ON_VRIGHT:
+       Right();
+       delay(delay_time/2);
+       break;
     
+    case LINE_ON_VLEFT:
+       Left();
+       delay(delay_time/2);
+       break;
+
+    case RIGHT_CORNER:
+       //90 degrees right turn function needed
+       if(    (LFSensorReading[0]== 0 )&&(LFSensorReading[1]== 1 )&&(LFSensorReading[2]== 1 )&&(LFSensorReading[3]== 0 ))  {cases = LINE_ON_RIGHT;}
+       else if((LFSensorReading[2]== 0 )&&(LFSensorReading[3]== 1 ))  {cases = LINE_ON_VRIGHT;/*INCLUDE HIGHER STEERING POWER SETTING*/}
+       delay(delay_time/2);
+       break;
+    
+    case LEFT_CORNER:
+       //90 degrees left turn function needed
+       delay(delay_time/2);
+       break;
+
+    case HORIZONTAL_LINE:
+       
   }
 }
