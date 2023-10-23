@@ -45,11 +45,13 @@ pinMode(LINE_SENSOR_VRIGHT, INPUT);
 }
 
 void loop(){ //Looping code
-digitalWrite(LED_BLINK, (millis() / 1000) % 2);
+//digitalWrite(LED_BLINK, (millis() / 1000) % 2);
 //distance_detection_US();
-followLine();
+//followLine();
 //Left();
+distance_detection_TOF();
 }
+
 
 
 
