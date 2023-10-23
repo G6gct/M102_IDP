@@ -49,7 +49,7 @@ void loop(){ //Looping code
 //distance_detection_US();
 //followLine();
 //Left();
-distance_detection_TOF();
+start();
 }
 
 

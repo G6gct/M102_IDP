@@ -14,6 +14,8 @@ int distance_detection_US(){
   Serial.println(dist_t);
   return(dist_t);
 }
+
+/*
 void detection_diffeence(){
   //cases only for competiton 1
   int diff =  abs(distance_detection_TOF()- distance_detection_US())
@@ -30,4 +32,4 @@ void detection_diffeence(){
     //some sort of code to indentify the block type
      //code to return to start
   }
-}
+}*/

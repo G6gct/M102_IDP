@@ -58,3 +58,37 @@ void followLine(void) {
     
   }
 }
+
+void StartingCases(){
+  if     ((LFSensorReading[3]==1) && (LFSensorReading[0]==0))   {Scases = right_forward;}
+  else if ((LFSensorReading[0]== 0 )&&(LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 0) &&(LFSensorReading[3]== 0 )){Scases = in_box;}
+  else if ((LFSensorReading[3]==0) && (LFSensorReading[0]== 1)) {Scases = left_forward;}
+  else if ((LFSensorReading[0]== 1 )&&(LFSensorReading[1]== 1 )&&(LFSensorReading[2]== 1) &&(LFSensorReading[3]== 1 )){Scases = on_line;}
+}
+void start(void){
+  LFSensorRead();
+  StartingCases();
+  switch (Scases) {
+    case in_box:
+      Forward();
+      delay(delay_time);
+      break;
+
+    case right_forward:
+      Right();
+      delay(delay_time);
+      break;
+
+    case left_forward:
+      Left();
+      delay(delay_time);
+      break;
+
+    case on_line:
+      Stop();
+      delay(1000);
+      break;}
+}
+  
+  
+  
