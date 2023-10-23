@@ -23,6 +23,9 @@ const int LINE_SENSOR_VRIGHT = 8;
 #define ON_LINE 0
 #define LINE_ON_LEFT 1       
 #define LINE_ON_RIGHT 2
+#define HORIZONTAL_LINE 3
+#define LINE_ON_VRIGHT 4
+#define LINE_ON_VLEFT 5
 
 #define in_box 0
 #define right_forward 1
