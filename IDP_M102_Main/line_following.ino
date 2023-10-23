@@ -29,9 +29,13 @@ void LFSensorRead() {
 }
 
 void LineFollowStart() {
-  if(    (LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 1 ))  {cases = LINE_ON_RIGHT;} 
-  else if((LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 0 ))  {cases = ON_LINE;}
+  if(    (LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 1 ))  {cases = LINE_ON_RIGHT;}
+  else if((LFSensorReading[0]==0  )&&(LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 0 )&&(LFSensorRead[3]== 1))  {cases = LINE_ON_VRIGHT;/*INCLUDE HIGHER STEERING POWER SETTING*/} 
   else if((LFSensorReading[1]== 1 )&&(LFSensorReading[2]== 0 ))  {cases = LINE_ON_LEFT;}
+  else if((LFSensorReading[0]==1  )&&(LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 0 )&&(LFSensorRead[3]== 0))  {cases = LINE_ON_VLEFT;/*INCLUDE HIGHER STEERING POWER SETTING*/}
+  else if((LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 0 ))  {cases = ON_LINE;}
+  else if((LFSensorReading[0]==1  )&&(LFSensorReading[1]== 1 )&&(LFSensorReading[2]== 1 )&&(LFSensorRead[3]== 1))  {cases = HORIZONTAL_LINE;}
+
   //To add multiple cases 
 }
 
