@@ -67,8 +67,9 @@ void LineFollowStart() {
   else if((LFSensorReading[0]== 0 )&&(LFSensorReading[1]== 1 )&&(LFSensorReading[2]== 0 ))  {cases = LINE_ON_LEFT;}
   else if((LFSensorReading[0]== 1 )&&(LFSensorReading[1]== 0 ))  {cases = LINE_ON_VLEFT;}
   else if((LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 0 ))  {cases = ON_LINE;}
-
-
+  else if((LFSensorReading[0]== 1 )&&(LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 0 )&&(LFSensorReading[3]== 1))  {cases = IGNORE;}
+  else if((LFSensorReading[0]== 0 )&&(LFSensorReading[1]== 1 )&&(LFSensorReading[2]== 0 )&&(LFSensorReading[3]== 1))  {cases = IGNORE;}
+  else if((LFSensorReading[0]== 1 )&&(LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 1 )&&(LFSensorReading[3]== 0))  {cases = IGNORE;}
 
   if(  (LFSensorReading[0]== 1 )&&(LFSensorReading[1]== 1 )&&(LFSensorReading[2]== 1 )&&(LFSensorReading[3]== 1))  
   {
@@ -97,10 +98,6 @@ void LineFollowStart() {
    else if((LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 0 ))   {cases = LEFT_CORNER;}
   } 
   
-  
-  else if((LFSensorReading[0]== 1 )&&(LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 0 )&&(LFSensorReading[3]== 1))  {cases = IGNORE;}
-  else if((LFSensorReading[0]== 0 )&&(LFSensorReading[1]== 1 )&&(LFSensorReading[2]== 0 )&&(LFSensorReading[3]== 1))  {cases = IGNORE;}
-  else if((LFSensorReading[0]== 1 )&&(LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 1 )&&(LFSensorReading[3]== 0))  {cases = IGNORE;}
   
 }
 
@@ -158,7 +155,6 @@ void followLine(void) {
 }
 
 // Starting motion from intial box to first intersection
-}
 void StartingCases(){
   if     ((LFSensorReading[3]==1) && (LFSensorReading[0]==0))   {Scases = right_forward;}
   else if ((LFSensorReading[0]== 0 )&&(LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 0) &&(LFSensorReading[3]== 0 )){Scases = in_box;}
