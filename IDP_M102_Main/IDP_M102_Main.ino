@@ -51,7 +51,12 @@ void loop(){ //Looping code
 while(start_button == 0){
   button_pressed();
 }
-Forward();
+Serial.print("Time of flight reading: ");
+Serial.print(distance_detection_TOF());
+Serial.print("      Ultrasonic reading: ");
+Serial.print(distance_detection_US());
+Serial.println(" ");
+delay(500);
 if (LED_BLINKING == 1){
 digitalWrite(LED_BLINK, (millis() / 1000) % 2);}
 
