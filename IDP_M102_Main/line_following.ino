@@ -133,17 +133,17 @@ void followLine(void) {
        break;
 
     case RIGHT_CORNER:
-       Right();
+       Right90();
        delay(delay_time/2);
        break;
     
     case LEFT_CORNER:
-       Left();
+       Left90();
        delay(delay_time/2);
        break;
 
     case HORIZONTAL_LINE:
-       Right();
+       Right90();
        delay(delay_time/2);
        break;
     
