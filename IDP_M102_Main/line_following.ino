@@ -1,16 +1,10 @@
-int delay_time = 100;
 
-/* Define different cases
-#define ON_LINE 0
-#define LINE_ON_LEFT 1       
-#define LINE_ON_RIGHT 2
+
 
 // Defining directions
 /* #define RIGHT 1
 #define LEFT -1 */
-
-
-int LFSensorReading[4]={0, 0, 0, 0};  //zeroed array for storing line sensor readings
+  //zeroed array for storing line sensor readings
 
 // Function for reading the line sensors and storing them in an array
 void LFSensorRead() {
@@ -19,14 +13,13 @@ void LFSensorRead() {
   LFSensorReading[2] = digitalRead(LINE_SENSOR_RIGHT);
   LFSensorReading[3] = digitalRead(LINE_SENSOR_VRIGHT);
 // Code for printing out the line sensor readings and the current mode
-  for (int i=0; i<4; i++){
+/*  for (int i=0; i<4; i++){
     Serial.print(LFSensorReading[i]);
     Serial.print(" ");
   }
-  Serial.println(" ");
+  Serial.println(" ");*/
 
 }
-
 
 /*0000z
 0001z
@@ -70,16 +63,86 @@ void LineFollowStart() {
   else if((LFSensorReading[0]== 1 )&&(LFSensorReading[1]== 1 )&&(LFSensorReading[2]== 1 )&&(LFSensorRead[3]== 1))  {cases = HORIZONTAL_LINE;}
   else if((LFSensorReading[0]== 0 )&&(LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 1 )&&(LFSensorRead[3]== 1))  {cases = RIGHT_CORNER;}
   else if((LFSensorReading[0]== 1 )&&(LFSensorReading[1]== 1 )&&(LFSensorReading[2]== 0 )&&(LFSensorRead[3]== 0))  {cases = LEFT_CORNER;}
+  else if ((LFSensorReading[0]== 1 )&&(LFSensorReading[1]== 1 )&&(LFSensorReading[2]== 1) &&(LFSensorReading[3]== 1 )){cases = four_white;}
   
 }
 
 void followLine(void) {
   LFSensorRead(); // calls the sensor reading
   LineFollowStart();  // calls the line sensors
-  switch (cases)
-   {
-
+  switch (cases){
      case ON_LINE:
+       Forward();
+       delay(delay_time);
+       break;
+     case LINE_ON_LEFT:
+       Left();
+       delay(delay_time);
+       break;
+     case LINE_ON_RIGHT:
+       Right();
+       delay(delay_time);
+       break;
+    case LINE_ON_VRIGHT:
+       Right();
+       delay(delay_time/2);
+       break;
+    case LINE_ON_VLEFT:
+       Left();
+       delay(delay_time/2);
+       break;
+    case RIGHT_CORNER:
+       Right();
+       delay(delay_time/2);
+       break;
+    case LEFT_CORNER:
+       Left();
+       delay(delay_time/2);
+       break;
+    case HORIZONTAL_LINE:
+       Right();
+       delay(delay_time/2);
+       break; 
+  }
+}
+
+void StartingCases(){
+  if     ((LFSensorReading[3]==1) && (LFSensorReading[0]==0))                                                             {Scases = right_forward;}
+  else if ((LFSensorReading[0]== 0 )&&(LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 0) &&(LFSensorReading[3]== 0 ))    {Scases = in_box;}
+  else if ((LFSensorReading[3]==0) && (LFSensorReading[0]== 1))                                                           {Scases = left_forward;}
+  else if ((LFSensorReading[0]== 1 )&&(LFSensorReading[1]== 1 )&&(LFSensorReading[2]== 1) &&(LFSensorReading[3]== 1 ))    {Scases = on_line;}
+}
+void start(void){
+  LFSensorRead();
+  StartingCases();
+  LineFollowStart();
+
+  switch (Scases){
+    case in_box:
+      Forward();
+      delay(delay_time);
+      break;
+    case right_forward:
+      Right();
+      delay(delay_time);
+      break;
+    case left_forward:
+      Left();
+      delay(delay_time);
+      break;
+    case on_line:
+      Stop();
+      delay(1000);
+      Forward();
+      delay(100);
+      initiate = 0;
+      break;}
+}
+void start_2(void){
+  LFSensorRead();
+  LineFollowStart();
+  switch(cases){
+       case ON_LINE:
        Forward();
        delay(delay_time);
        break;
@@ -103,57 +166,10 @@ void followLine(void) {
        Left();
        delay(delay_time/2);
        break;
-
-    case RIGHT_CORNER:
-       Right();
-       delay(delay_time/2);
-       break;
-    
-    case LEFT_CORNER:
-       Left();
-       delay(delay_time/2);
-       break;
-
-    case HORIZONTAL_LINE:
-       Right();
-       delay(delay_time/2);
-       break;
-    
-    
-       
-  }
-}
-
-void StartingCases(){
-  if     ((LFSensorReading[3]==1) && (LFSensorReading[0]==0))   {Scases = right_forward;}
-  else if ((LFSensorReading[0]== 0 )&&(LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 0) &&(LFSensorReading[3]== 0 )){Scases = in_box;}
-  else if ((LFSensorReading[3]==0) && (LFSensorReading[0]== 1)) {Scases = left_forward;}
-  else if ((LFSensorReading[0]== 1 )&&(LFSensorReading[1]== 1 )&&(LFSensorReading[2]== 1) &&(LFSensorReading[3]== 1 )){Scases = on_line;}
-}
-void start(void){
-  LFSensorRead();
-  StartingCases();
-  switch (Scases) {
-    case in_box:
-      Forward();
-      delay(delay_time);
-      break;
-
-    case right_forward:
-      Right();
-      delay(delay_time);
-      break;
-
-    case left_forward:
-      Left();
-      delay(delay_time);
-      break;
-
-    case on_line:
+    case four_white:
       Stop();
-      delay(1000);
-      initiate = false 
-      break;}
+      delay(100);
+  }
 }
   
   

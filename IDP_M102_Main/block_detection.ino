@@ -14,8 +14,12 @@ int distance_detection_US(){
   Serial.println(dist_t);
   return(dist_t);
 }
-
-/*
+void button_pressed(){
+  int val = digitalRead(START_BUTTON);
+  if (val == HIGH){
+    start_button = 1;
+  }
+}/*
 void detection_diffeence(){
   //cases only for competiton 1
   int diff =  abs(distance_detection_TOF()- distance_detection_US())

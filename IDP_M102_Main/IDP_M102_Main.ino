@@ -18,6 +18,8 @@ DFRobot_VL53L0X sensor; //Sets up TOF sensor
 #define LINE_SENSOR_LEFT 6
 #define LINE_SENSOR_RIGHT 7
 #define LINE_SENSOR_VRIGHT 8
+#define START_BUTTON 9
+#define RESET_BUTTON 10
 int sensityPin = A0;
 
 void setup() { //Setup code which only runs once
@@ -41,23 +43,19 @@ pinMode(LINE_SENSOR_VLEFT, INPUT); // Set pins for sensors
 pinMode(LINE_SENSOR_LEFT, INPUT);
 pinMode(LINE_SENSOR_RIGHT, INPUT);
 pinMode(LINE_SENSOR_VRIGHT, INPUT);
+pinMode(START_BUTTON, INPUT);
 
 }
 
 void loop(){ //Looping code
-//digitalWrite(LED_BLINK, (millis() / 1000) % 2);
-//distance_detection_US();
-//followLine();
-//Left();
-while (initiate == true){
-  start();
+while(start_button == 0){
+  button_pressed();
 }
-delay(5000);
 Forward();
-delay(500);
-followLine();
-}
+if (LED_BLINKING == 1){
+digitalWrite(LED_BLINK, (millis() / 1000) % 2);}
 
+}
 
 
 

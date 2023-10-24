@@ -1,6 +1,10 @@
 int cases = 0;
 int Scases =0;
-bool initiate = true 
+int initiate = 1;
+int start_button = 0;
+int LED_BLINKING = 0;
+int LFSensorReading[4]={0, 0, 0, 0};
+int delay_time = 100;
 //Define for port locations
 #define LED_BLINK 2
 #define LED_DEN_LOW 3
@@ -28,6 +32,7 @@ const int LINE_SENSOR_VRIGHT = 8;
 #define LINE_ON_VLEFT 5
 #define RIGHT_CORNER 6
 #define LEFT_CORNER 7
+#define four_white 8
 
 #define in_box 0
 #define right_forward 1
@@ -40,8 +45,27 @@ const int LINE_SENSOR_VRIGHT = 8;
 
 
 // Importing functions in this file for use in main programme
+
+// Line Following
 void LFSensorRead();
 void LineSensorStart();
 void followLine();
 void StartingCases();
 void start();
+
+//Block Detection
+int distance_detection_TOF();
+int distance_detection_US();
+void button_pressed();
+
+
+//Motor Controls
+void Forward();
+void Backward();
+void Left();
+void Right();
+void Stop();
+void General_Run();
+void Right90();
+void Left90();
+void Turn180();
