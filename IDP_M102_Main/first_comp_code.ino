@@ -1,19 +1,20 @@
 //hard-coded path navigation (go around the perimeter of the grid, detect block, reverse path to star
-void booleandef(){
-bool LT1;
-bool RT1;
-bool RT2;
-bool RT3;
-bool RT4;
-bool RT5;
-bool RT6;
-bool RT7;
-bool RT8;
-bool RT9;
-bool LT2;
-}
+
+    bool LT1;   
+    bool RT1;
+    bool RT2;
+    bool RT3;
+    bool RT4;
+    bool RT5;
+    bool RT6;
+    bool RT7;
+    bool RT8;
+    bool RT9;
+    bool LT2;
 
 void FCpath() {
+
+
   // first left turn
   if (!LT1) {
     if ((LFSensorReading[0]== 0 )&&(LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 0 )&&(LFSensorReading[3]== 0)) {Forward();} 

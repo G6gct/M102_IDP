@@ -52,6 +52,18 @@ const int LINE_SENSOR_VRIGHT = 8;
 #define RIGHT 1
 #define LEFT -1
 
+// temp boolean definitions
+bool LT1;   
+bool RT1;
+bool RT2;
+bool RT3;
+bool RT4;
+bool RT5;
+bool RT6;
+bool RT7;
+bool RT8;
+bool RT9;
+bool LT2;
 
 // Importing functions in this file for use in main programme
 
@@ -80,6 +92,5 @@ void Left90();
 void Turn180();
 
 //temp functions
-void booleandef();
 void FCpath(); 
 void resetRobotState()
