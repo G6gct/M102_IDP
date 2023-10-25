@@ -2,6 +2,7 @@ int cases = 0;
 int Scases =0;
 int is_block_detected = 0;
 int block_stopped_history = 0;
+int start_complete =0;
 int initiate = 1;
 int start_button = 0;
 int LED_BLINKING = 0;

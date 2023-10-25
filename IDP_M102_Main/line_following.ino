@@ -143,7 +143,7 @@ void followLine(void) {
        break;
 
     case HORIZONTAL_LINE:
-       Right90();
+       Right();
        delay(delay_time/2);
        break;
     
@@ -183,7 +183,8 @@ void start(void){
     case on_line:
       Stop();
       delay(delay_time);
-      Left90();
+      General_Run(150,150);
+      start_complete = 1;
       break;}
 }
   

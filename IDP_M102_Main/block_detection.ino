@@ -21,6 +21,10 @@ Serial.print("Time of flight reading: ");
 Serial.print(distance_detection_TOF());
 Serial.print("      Ultrasonic reading: ");
 Serial.print(distance_detection_US());
+Serial.print("        Average TOF reading:");
+Serial.print(average_distance_TOF());
+Serial.print("        Average US reading:");
+Serial.print(average_distance_US());
 Serial.println(" ");
 delay(500);
 }
@@ -56,15 +60,24 @@ int average_distance_US(){
 }
 
 void block_possible(){
-  if (average_distance_TOF()<15){
+  int x = average_distance_TOF();
+
+  if (x<10){
     is_block_detected =1;
+    Serial.print("block is present");
+    Serial.println(" ");
+    block_stop();
+  }
+  else {
+    is_block_detected = 0;
   }
 }
+
 void block_detected(){
-  Serial.print(average_distance_TOF());
+ /* Serial.print(average_distance_TOF());
   Serial.print("                      ");
   Serial.print(average_distance_US());
-  Serial.println("          ");
+  Serial.println("          ");*/
   if (average_distance_TOF()<20 && average_distance_US()<10){
     digitalWrite(LED_DEN_LOW,HIGH);
     digitalWrite(LED_DEN_HIGH,LOW);}
@@ -80,7 +93,6 @@ void block_detected(){
   }
 }
 void block_stop(){
-  if (is_block_detected = 1){
     if (block_stopped_history == 0){
       block_stopped_history = 1;
       Stop();
@@ -91,8 +103,8 @@ void block_stop(){
       block_detected();
       delay(5000);
     }
-  }
 }
+
 void reset_block_stop(){
   block_stopped_history = 0;}
 /*
