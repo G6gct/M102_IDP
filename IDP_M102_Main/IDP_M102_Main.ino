@@ -54,7 +54,7 @@ block_detected();
 //block_stop();
 if (LED_BLINKING == 1){
 digitalWrite(LED_BLINK, (millis() / 1000) % 2);}
-//followLine();
+followLine();
 }
 
 
