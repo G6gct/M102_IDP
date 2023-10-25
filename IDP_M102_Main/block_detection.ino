@@ -54,6 +54,12 @@ int average_distance_US(){
   }
   return(sum_US/10);
 }
+
+void block_possible(){
+  if (average_distance_TOF()<15){
+    is_block_detected =1;
+  }
+}
 void block_detected(){
   Serial.print(average_distance_TOF());
   Serial.print("                      ");
@@ -78,6 +84,11 @@ void block_stop(){
     if (block_stopped_history == 0){
       block_stopped_history = 1;
       Stop();
+      delay(1000);
+      for (int i = 0;i<30;i++){
+        update_sensor_history();
+      }
+      block_detected();
       delay(5000);
     }
   }
