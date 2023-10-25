@@ -59,15 +59,15 @@ void block_detected(){
   Serial.print("                      ");
   Serial.print(average_distance_US());
   Serial.println("          ");
-  if (average_distance_TOF()<10 && average_distance_US()<10){
+  if (average_distance_TOF()<20 && average_distance_US()<10){
     digitalWrite(LED_DEN_LOW,HIGH);
     digitalWrite(LED_DEN_HIGH,LOW);}
-  //  is_block_detected = 1;
-  if (average_distance_TOF()<20&& average_distance_US()>20){
+    is_block_detected = 1;
+  if (average_distance_TOF()<20&& average_distance_US()>10){
      digitalWrite(LED_DEN_HIGH,HIGH);
      digitalWrite(LED_DEN_LOW,LOW);}
      is_block_detected = 1;
-  if (average_distance_TOF()>20&& average_distance_US()>20){
+  if (average_distance_TOF()>20&& average_distance_US()>10){
     digitalWrite(LED_DEN_LOW,LOW);
     digitalWrite(LED_DEN_HIGH,LOW);
     is_block_detected = 0;
