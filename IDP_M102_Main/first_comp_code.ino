@@ -1,6 +1,7 @@
 //hard-coded path navigation (go around the perimeter of the grid, detect block, reverse path to star
 void FCpath(void) {
-
+  LFSensorRead(); // calls the sensor reading
+  LineFollowStart();  // calls the line sensors
 
   // first left turn
   if (!LT1) {
