@@ -62,9 +62,9 @@ how to discern between junctions with heads?
 
 
 void LineFollowStart() {
-  if(    (LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 1 )&&(LFSensorReading[3]== 0 ))  {cases = LINE_ON_RIGHT;}
+  if(     (LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 1 ))  {cases = LINE_ON_RIGHT;}
   else if((LFSensorReading[2]== 0 )&&(LFSensorReading[3]== 1 ))  {cases = LINE_ON_VRIGHT;} 
-  else if((LFSensorReading[0]== 0 )&&(LFSensorReading[1]== 1 )&&(LFSensorReading[2]== 0 ))  {cases = LINE_ON_LEFT;}
+  else if((LFSensorReading[1]== 1 )&&(LFSensorReading[2]== 0 ))  {cases = LINE_ON_LEFT;}
   else if((LFSensorReading[0]== 1 )&&(LFSensorReading[1]== 0 ))  {cases = LINE_ON_VLEFT;}
   else if((LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 0 ))  {cases = ON_LINE;}
   else if((LFSensorReading[0]== 1 )&&(LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 0 )&&(LFSensorReading[3]== 1))  {cases = IGNORE;}

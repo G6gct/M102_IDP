@@ -78,3 +78,8 @@ void General_Run();
 void Right90();
 void Left90();
 void Turn180();
+
+//temp functions
+void booleandef();
+void FCpath(); 
+void resetRobotState()
