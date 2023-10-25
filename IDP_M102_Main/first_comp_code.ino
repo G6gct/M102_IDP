@@ -1,5 +1,5 @@
 //hard-coded path navigation (go around the perimeter of the grid, detect block, reverse path to star
-void FCpath(void) {
+/*void FCpath(void) {
 
 
   // first left turn
@@ -119,4 +119,4 @@ void resetRobotState() {
   RT9 = false;
   LT2 = false;
   
-}
+}*/
