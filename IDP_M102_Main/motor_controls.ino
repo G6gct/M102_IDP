@@ -1,7 +1,7 @@
 //Motor Controls 
 void Forward(){
-MotorL->setSpeed(100);
-MotorR -> setSpeed(100);
+MotorL->setSpeed(225);
+MotorR -> setSpeed(225);
 MotorL->run(FORWARD);
 MotorR->run(FORWARD);
 LED_BLINKING = 1;

@@ -63,16 +63,41 @@ how to discern between junctions with heads?
 
 void LineFollowStart() {
   if(    (LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 1 )&&(LFSensorReading[3]== 0 ))  {cases = LINE_ON_RIGHT;}
-  else if((LFSensorReading[2]== 0 )&&(LFSensorReading[3]== 1 ))  {cases = LINE_ON_VRIGHT;/*INCLUDE HIGHER STEERING POWER SETTING*/} 
+  else if((LFSensorReading[2]== 0 )&&(LFSensorReading[3]== 1 ))  {cases = LINE_ON_VRIGHT;} 
   else if((LFSensorReading[0]== 0 )&&(LFSensorReading[1]== 1 )&&(LFSensorReading[2]== 0 ))  {cases = LINE_ON_LEFT;}
-  else if((LFSensorReading[0]== 1 )&&(LFSensorReading[1]== 0 ))  {cases = LINE_ON_VLEFT;/*INCLUDE HIGHER STEERING POWER SETTING*/}
+  else if((LFSensorReading[0]== 1 )&&(LFSensorReading[1]== 0 ))  {cases = LINE_ON_VLEFT;}
   else if((LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 0 ))  {cases = ON_LINE;}
-  else if((LFSensorReading[0]== 1 )&&(LFSensorReading[1]== 1 )&&(LFSensorReading[2]== 1 )&&(LFSensorReading[3]== 1))  {cases = HORIZONTAL_LINE;}
-  else if((LFSensorReading[0]== 0 )&&(LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 1 )&&(LFSensorReading[3]== 1))  {cases = RIGHT_CORNER;}
-  else if((LFSensorReading[0]== 1 )&&(LFSensorReading[1]== 1 )&&(LFSensorReading[2]== 0 )&&(LFSensorReading[3]== 0))  {cases = LEFT_CORNER;}
   else if((LFSensorReading[0]== 1 )&&(LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 0 )&&(LFSensorReading[3]== 1))  {cases = IGNORE;}
   else if((LFSensorReading[0]== 0 )&&(LFSensorReading[1]== 1 )&&(LFSensorReading[2]== 0 )&&(LFSensorReading[3]== 1))  {cases = IGNORE;}
   else if((LFSensorReading[0]== 1 )&&(LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 1 )&&(LFSensorReading[3]== 0))  {cases = IGNORE;}
+
+  if(  (LFSensorReading[0]== 1 )&&(LFSensorReading[1]== 1 )&&(LFSensorReading[2]== 1 )&&(LFSensorReading[3]== 1))  
+  {
+   if ((LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 1 )&&(LFSensorReading[3]== 0 )) {cases = HORIZONTAL_LINE;}
+   else if((LFSensorReading[2]== 0 )&&(LFSensorReading[3]== 1 ))   {cases = HORIZONTAL_LINE;}
+   else if((LFSensorReading[0]== 0 )&&(LFSensorReading[1]== 1 )&&(LFSensorReading[2]== 0 ))   {cases = HORIZONTAL_LINE;}
+   else if((LFSensorReading[0]== 1 )&&(LFSensorReading[1]== 0 ))   {cases = HORIZONTAL_LINE;}
+   else if((LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 0 ))   {cases = HORIZONTAL_LINE;}
+  } 
+
+  if(  (LFSensorReading[0]== 0 )&&(LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 1 )&&(LFSensorReading[3]== 1))
+  {
+   if ((LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 1 )&&(LFSensorReading[3]== 0 ))  {cases = RIGHT_CORNER;}
+   else if((LFSensorReading[2]== 0 )&&(LFSensorReading[3]== 1 ))   {cases = RIGHT_CORNER;}
+   else if((LFSensorReading[0]== 0 )&&(LFSensorReading[1]== 1 )&&(LFSensorReading[2]== 0 ))   {cases = RIGHT_CORNER;}
+   else if((LFSensorReading[0]== 1 )&&(LFSensorReading[1]== 0 ))   {cases = RIGHT_CORNER;}
+   else if((LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 0 ))   {cases = RIGHT_CORNER;}
+  } 
+
+  if(  (LFSensorReading[0]== 1 )&&(LFSensorReading[1]== 1 )&&(LFSensorReading[2]== 0 )&&(LFSensorReading[3]== 0))
+  {
+   if ((LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 1 )&&(LFSensorReading[3]== 0 ))    {cases = LEFT_CORNER;}
+   else if((LFSensorReading[2]== 0 )&&(LFSensorReading[3]== 1 ))    {cases = LEFT_CORNER;}
+   else if((LFSensorReading[0]== 0 )&&(LFSensorReading[1]== 1 )&&(LFSensorReading[2]== 0 ))   {cases = LEFT_CORNER;}
+   else if((LFSensorReading[0]== 1 )&&(LFSensorReading[1]== 0 ))   {cases = LEFT_CORNER;}
+   else if((LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 0 ))   {cases = LEFT_CORNER;}
+  } 
+  
   
 }
 
@@ -108,17 +133,17 @@ void followLine(void) {
        break;
 
     case RIGHT_CORNER:
-       Right();
+       Right90();
        delay(delay_time/2);
        break;
     
     case LEFT_CORNER:
-       Left();
+       Left90();
        delay(delay_time/2);
        break;
 
     case HORIZONTAL_LINE:
-       Right();
+       Right90();
        delay(delay_time/2);
        break;
     
@@ -129,7 +154,7 @@ void followLine(void) {
   }
 }
 
-// Starting motion from intial box to fiest intersection
+// Starting motion from intial box to first intersection
 void StartingCases(){
   if     ((LFSensorReading[3]==1) && (LFSensorReading[0]==0))   {Scases = right_forward;}
   else if ((LFSensorReading[0]== 0 )&&(LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 0) &&(LFSensorReading[3]== 0 )){Scases = in_box;}
