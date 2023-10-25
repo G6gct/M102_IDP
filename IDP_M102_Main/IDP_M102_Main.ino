@@ -47,9 +47,9 @@ void loop(){ //Looping code
 while(start_button == 0){
   button_pressed();
 }
-while (start_complete==0){
+/*while (start_complete==0){
   start();
-}
+}*/
 update_sensor_history();
 block_possible();
 followLine();

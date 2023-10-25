@@ -59,44 +59,24 @@ xx01 line on very right (1101, 1001*, 0101*, 0001)
 
 how to discern between junctions with heads?
 */
-
+int junction = 0;
 
 void LineFollowStart() {
-  if(     (LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 1 ))  {cases = LINE_ON_RIGHT;}
+  if((LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 1 ))  {cases = LINE_ON_RIGHT;}
   else if((LFSensorReading[2]== 0 )&&(LFSensorReading[3]== 1 ))  {cases = LINE_ON_VRIGHT;} 
   else if((LFSensorReading[1]== 1 )&&(LFSensorReading[2]== 0 ))  {cases = LINE_ON_LEFT;}
   else if((LFSensorReading[0]== 1 )&&(LFSensorReading[1]== 0 ))  {cases = LINE_ON_VLEFT;}
   else if((LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 0 ))  {cases = ON_LINE;}
-  else if((LFSensorReading[0]== 1 )&&(LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 0 )&&(LFSensorReading[3]== 1))  {cases = IGNORE;}
-  else if((LFSensorReading[0]== 0 )&&(LFSensorReading[1]== 1 )&&(LFSensorReading[2]== 0 )&&(LFSensorReading[3]== 1))  {cases = IGNORE;}
-  else if((LFSensorReading[0]== 1 )&&(LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 1 )&&(LFSensorReading[3]== 0))  {cases = IGNORE;}
+  else if(  (LFSensorReading[0]== 1 )&&(LFSensorReading[1]== 1 )&&(LFSensorReading[2]== 1 )&&(LFSensorReading[3]== 1))  
+  { cases = HORIZONTAL_LINE; } 
+  else {cases = IGNORE;}
 
-  if(  (LFSensorReading[0]== 1 )&&(LFSensorReading[1]== 1 )&&(LFSensorReading[2]== 1 )&&(LFSensorReading[3]== 1))  
-  {
-   if ((LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 1 )&&(LFSensorReading[3]== 0 )) {cases = HORIZONTAL_LINE;}
-   else if((LFSensorReading[2]== 0 )&&(LFSensorReading[3]== 1 ))   {cases = HORIZONTAL_LINE;}
-   else if((LFSensorReading[0]== 0 )&&(LFSensorReading[1]== 1 )&&(LFSensorReading[2]== 0 ))   {cases = HORIZONTAL_LINE;}
-   else if((LFSensorReading[0]== 1 )&&(LFSensorReading[1]== 0 ))   {cases = HORIZONTAL_LINE;}
-   else if((LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 0 ))   {cases = HORIZONTAL_LINE;}
-  } 
 
   if(  (LFSensorReading[0]== 0 )&&(LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 1 )&&(LFSensorReading[3]== 1))
-  {
-   if ((LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 1 )&&(LFSensorReading[3]== 0 ))  {cases = RIGHT_CORNER;}
-   else if((LFSensorReading[2]== 0 )&&(LFSensorReading[3]== 1 ))   {cases = RIGHT_CORNER;}
-   else if((LFSensorReading[0]== 0 )&&(LFSensorReading[1]== 1 )&&(LFSensorReading[2]== 0 ))   {cases = RIGHT_CORNER;}
-   else if((LFSensorReading[0]== 1 )&&(LFSensorReading[1]== 0 ))   {cases = RIGHT_CORNER;}
-   else if((LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 0 ))   {cases = RIGHT_CORNER;}
-  } 
+  { junction = 1; cases = RIGHT_CORNER;} 
 
   if(  (LFSensorReading[0]== 1 )&&(LFSensorReading[1]== 1 )&&(LFSensorReading[2]== 0 )&&(LFSensorReading[3]== 0))
-  {
-   if ((LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 1 )&&(LFSensorReading[3]== 0 ))    {cases = LEFT_CORNER;}
-   else if((LFSensorReading[2]== 0 )&&(LFSensorReading[3]== 1 ))    {cases = LEFT_CORNER;}
-   else if((LFSensorReading[0]== 0 )&&(LFSensorReading[1]== 1 )&&(LFSensorReading[2]== 0 ))   {cases = LEFT_CORNER;}
-   else if((LFSensorReading[0]== 1 )&&(LFSensorReading[1]== 0 ))   {cases = LEFT_CORNER;}
-   else if((LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 0 ))   {cases = LEFT_CORNER;}
-  } 
+  { junction = 2; cases = LEFT_CORNER;} 
   
   
 }
@@ -134,12 +114,14 @@ void followLine(void) {
 
     case RIGHT_CORNER:
        Right90();
-       delay(delay_time/2);
+       delay(5000);
+       junction = 0;
        break;
     
     case LEFT_CORNER:
        Left90();
-       delay(delay_time/2);
+       delay(5000);
+       junction = 0;
        break;
 
     case HORIZONTAL_LINE:
