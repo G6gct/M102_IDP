@@ -47,14 +47,15 @@ void loop(){ //Looping code
 while(start_button == 0){
   button_pressed();
 }
-
-//Forward();
+/*while (start_complete==0){
+  start();
+}*/
 update_sensor_history();
-block_detected();
-//block_stop();
+block_possible();
+followLine();
 if (LED_BLINKING == 1){
 digitalWrite(LED_BLINK, (millis() / 1000) % 2);}
-followLine();
+
 }
 
 
