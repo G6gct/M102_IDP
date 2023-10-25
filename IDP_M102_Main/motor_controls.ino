@@ -53,12 +53,12 @@ void General_Run(int speed1, int speed2){
     MotorL->run(BACKWARD);
   }
   if (speed2 >=0){
-    MotorL->setSpeed(speed2);
-    MotorL->run(FORWARD);
+    MotorR->setSpeed(speed2);
+    MotorR->run(FORWARD);
   }
   else if (speed2 < 0){
-    MotorL->setSpeed(-speed2);
-    MotorL->run(BACKWARD);
+    MotorR->setSpeed(-speed2);
+    MotorR->run(BACKWARD);
   }
   LED_BLINKING = 1;
   delay(20);
@@ -72,12 +72,12 @@ void Right90(){
 }
 
 void Left90(){
-  Left();
-  delay(200);
+  General_Run(70,100);
+  delay(3000);
   Stop();
 }
 void Turn180(){
   Left();
-  delay(200);
+  delay(5500);
   Stop();
 }

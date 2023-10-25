@@ -1,4 +1,4 @@
-int delay_time = 50;
+
 
 /* Define different cases
 #define ON_LINE 0
@@ -157,7 +157,7 @@ void start(void){
 
     case on_line:
       Stop();
-      delay(delay_time)
+      delay(delay_time);
       Left90();
       break;}
 }
