@@ -21,7 +21,7 @@ DFRobot_VL53L0X sensor; //Sets up TOF sensor
 #define START_BUTTON 9
 #define RESET_BUTTON 10
 int sensityPin = A0;
-
+void(* resetFunc) (void) = 0;
 void setup() { //Setup code which only runs once
 AFMS.begin();  // Start the motor shiel up
 //Setup serial port for 9600 bits
@@ -40,23 +40,37 @@ pinMode(LINE_SENSOR_LEFT, INPUT);
 pinMode(LINE_SENSOR_RIGHT, INPUT);
 pinMode(LINE_SENSOR_VRIGHT, INPUT);
 pinMode(START_BUTTON, INPUT);
+pinMode(RESET_BUTTON,INPUT);
 
 }
-
+// We must add code to bring block back to start and reset the block history, could ad a block check function to be run to ensure the block is not lost so that if it is, it doesnt waste time looking for it.
 void loop(){ //Looping code
 while(start_button == 0){
   button_pressed();
-}
-/*while (start_complete==0){
-  start();
-}*/
-update_sensor_history();
-block_possible();
-followLine();
 if (LED_BLINKING == 1){
-digitalWrite(LED_BLINK, (millis() / 1000) % 2);}
+digitalWrite(LED_BLINK, (millis() / 250) % 2);}
+}
+if(reset_button == 1){
+  resetFunc();
+}
+while (start_complete==0){
+  start();
+  reset_pressed();
+}
+reset_pressed();
+update_sensor_history();
+node_follower();
+//dark_block_scan(50,-50);
+
+//distance_prints();
+//General_Run(120,-120);
+//block_possible();
+//dark_block_scan(120,-120);
+//FCpath();
+
+//to_green();
+if (LED_BLINKING == 1){
+digitalWrite(LED_BLINK, (millis() / 250) % 2);}
 
 }
-
-
 

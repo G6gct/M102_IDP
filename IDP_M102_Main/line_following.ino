@@ -19,12 +19,12 @@ void LFSensorRead() {
   LFSensorReading[2] = digitalRead(LINE_SENSOR_RIGHT);
   LFSensorReading[3] = digitalRead(LINE_SENSOR_VRIGHT);
 // Code for printing out the line sensor readings and the current mode
-  for (int i=0; i<4; i++){
+  /*for (int i=0; i<4; i++){
     Serial.print(LFSensorReading[i]);
     Serial.print(" ");
   }
   Serial.println(" ");
-
+*/
 }
 
 
@@ -62,6 +62,7 @@ how to discern between junctions with heads?
 int junction = 0;
 
 void LineFollowStart() {
+  if (junction = 0) {
   if((LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 1 ))  {cases = LINE_ON_RIGHT;}
   else if((LFSensorReading[2]== 0 )&&(LFSensorReading[3]== 1 ))  {cases = LINE_ON_VRIGHT;} 
   else if((LFSensorReading[1]== 1 )&&(LFSensorReading[2]== 0 ))  {cases = LINE_ON_LEFT;}
@@ -70,16 +71,17 @@ void LineFollowStart() {
   else if(  (LFSensorReading[0]== 1 )&&(LFSensorReading[1]== 1 )&&(LFSensorReading[2]== 1 )&&(LFSensorReading[3]== 1))  
   { cases = HORIZONTAL_LINE; } 
   else {cases = IGNORE;}
+  }
+}
 
-
-  if(  (LFSensorReading[0]== 0 )&&(LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 1 )&&(LFSensorReading[3]== 1))
+ /* if(  (LFSensorReading[0]== 0 )&&(LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 1 )&&(LFSensorReading[3]== 1))
   { junction = 1; cases = RIGHT_CORNER;} 
 
   if(  (LFSensorReading[0]== 1 )&&(LFSensorReading[1]== 1 )&&(LFSensorReading[2]== 0 )&&(LFSensorReading[3]== 0))
   { junction = 2; cases = LEFT_CORNER;} 
+  */
   
-  
-}
+
 
 void followLine(void) {
   LFSensorRead(); // calls the sensor reading
@@ -114,24 +116,25 @@ void followLine(void) {
 
     case RIGHT_CORNER:
        Right90();
-       delay(5000);
+       delay(500);
        junction = 0;
        break;
     
     case LEFT_CORNER:
        Left90();
-       delay(5000);
+       delay(500);
        junction = 0;
        break;
 
     case HORIZONTAL_LINE:
-       Right();
+       Right90();
        delay(delay_time/2);
        break;
     
     case IGNORE:
        Forward();
        delay(delay_time/2);
+       junction = 0;
        break;
   }
 }
@@ -142,6 +145,7 @@ void StartingCases(){
   else if ((LFSensorReading[0]== 0 )&&(LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 0) &&(LFSensorReading[3]== 0 )){Scases = in_box;}
   else if ((LFSensorReading[3]==0) && (LFSensorReading[0]== 1)) {Scases = left_forward;}
   else if ((LFSensorReading[0]== 1 )&&(LFSensorReading[1]== 1 )&&(LFSensorReading[2]== 1) &&(LFSensorReading[3]== 1 )){Scases = on_line;}
+  else {Scases = IGNORE;}
 }
 void start(void){
   LFSensorRead();
@@ -153,144 +157,53 @@ void start(void){
       break;
 
     case right_forward:
-      Right();
+      General_Run(100,-100);
       delay(delay_time);
       break;
 
     case left_forward:
-      Left();
+      General_Run(-100,100);
       delay(delay_time);
       break;
 
+    case IGNORE:
+       Forward();
+       delay(delay_time/2);
+       break;
+
     case on_line:
+      Forward();
+      delay(300);
       Stop();
       delay(delay_time);
-      General_Run(150,150);
+      //General_Run(150,150);
       start_complete = 1;
       break;}
 }
   
-//hard-coded path navigation (go around the perimeter of the grid, detect block, reverse path to star
+//hard-coded path navigation (go around the perimeter of the grid, detect block, reverse path to start
 
-void FCpath() {
+int node = 0;
+int prev_node = -1;
+
+void node_follower(void){
   LFSensorRead(); // calls the sensor reading
-  // first left turn
-  if (!LT1) {
-    if ((LFSensorReading[0]== 0 )&&(LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 0 )&&(LFSensorReading[3]== 0)) {Forward();} 
-      // On the line, go forward
-       else if ((LFSensorReading[0]== 1 )&&(LFSensorReading[1]== 1 )&&(LFSensorReading[2]== 1 )&&(LFSensorReading[3]== 1)) {Left();}
-      // Left sensor is on the line, turn left
-       else if ((LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 1)) {Forward();}
-      // Right sensor is on the line, go forward
-    
-    if (LT1) {
-      // Reset the robot's state after the first left turn
-      resetRobotState();
-    }
-  }
+  LineFollowStart();  // calls the line sensors
 
-  // ignore first right turn
-  else if (LT1 && !RT1) {
-    if ((LFSensorReading[0]== 0 )&&(LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 0 )&&(LFSensorReading[3]== 0)) {
-      // On the line, go forward
-      Forward();
-    } else if ((LFSensorReading[1]== 1 )&&(LFSensorReading[2]== 0 )) {
-      // Left sensor is on the line, go forward
-      Forward();
-    } else if ((LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 1 )) {
-      // Right sensor is on the line, go forward
-      Forward();
-      RT1 = true;
-    }
-  }
+ if(  (LFSensorReading[2]== 1 )&&(LFSensorReading[3]== 1))
+  { prev_node = node++;} 
+  else if(  (LFSensorReading[0]== 1 )&&(LFSensorReading[1]== 1 ))
+  { prev_node = node--;} 
+  else if(  (LFSensorReading[0]== 1 )&&(LFSensorReading[1]== 1 )&&(LFSensorReading[2]== 1 )&&(LFSensorReading[3]== 1)){
+  if (node - prev_node > 0) { prev_node = node++; }
+  else if (node - prev_node <0) { prev_node = node--;}
 
-  // Handle the second right turn
-  else if (LT1 && RT1 && !RT2) {
-    if ((LFSensorReading[0]== 0 )&&(LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 0 )&&(LFSensorReading[3]== 0)) {
-      // On the line, go forward
-      Forward();
-    } else if ((LFSensorReading[1]== 1 )&&(LFSensorReading[2]== 0 )) {
-      // Left sensor is on the line, go forward
-      Forward();
-    } else if ((LFSensorReading[0]== 1 )&&(LFSensorReading[1]== 1 )&&(LFSensorReading[2]== 1 )&&(LFSensorReading[3]== 1)) {
-      // Right sensor is on the line, turn right
-      Right();
-      RT2 = true;
-    }
   }
-
-  // Handle the third right turn
-  else if (LT1 && RT1 && RT2 && !RT3) {
-    if ((LFSensorReading[0]== 0 )&&(LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 0 )&&(LFSensorReading[3]== 0)) {
-      // On the line, go forward
-      Forward();
-    } else if ((LFSensorReading[1]== 1 )&&(LFSensorReading[2]== 0 )) {
-      // Left sensor is on the line, go forward
-      Forward();
-    } else if ((LFSensorReading[0]== 0 )&&(LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 1 )&&(LFSensorReading[3]== 1)) {
-      // Right sensor is on the line, turn right
-      Right();
-      RT3 = true;
-    }
-  }
-
-  else if (LT1 && RT1 && RT2 && RT3 && !RT4) {
-    if ((LFSensorReading[0]== 0 )&&(LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 0 )&&(LFSensorReading[3]== 0)) {
-      // On the line, go forward
-      Forward();
-    } else if ((LFSensorReading[1]== 1 )&&(LFSensorReading[2]== 0 )) {
-      // Left sensor is on the line, go forward
-      Forward();
-    } else if ((LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 1 )) {
-      // Right sensor is on the line, go forward
-      Forward();
-      RT4 = true;
-    }
-  }
-
-   else if (LT1 && RT1 && RT2 && RT3 && RT4 && !RT5) {
-    if ((LFSensorReading[0]== 0 )&&(LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 0 )&&(LFSensorReading[3]== 0)) {
-      // On the line, go forward
-      Forward();
-    } else if ((LFSensorReading[1]== 1 )&&(LFSensorReading[2]== 0 )) {
-      // Left sensor is on the line, go forward
-      Forward();
-    } else if ((LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 1 )) {
-      // Right sensor is on the line, go forward
-      Forward();
-      RT5 = true;
-    }
-  }
-
-  //ignore all other cases 
-  else {
-    if ((LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 0 )) {
-      // On the line, go forward
-      Forward();
-    } else if ((LFSensorReading[0]== 0 )&&(LFSensorReading[1]== 1 )&&(LFSensorReading[2]== 0 )) {
-      // Left sensor is on the line, go forward
-      Forward();
-    } else if ((LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 1 )&&(LFSensorReading[3]== 0 )) {
-      // Right sensor is on the line, go forward
-      Forward();
-    }
-  }
+ Serial.print(node);
+ Serial.print(" ");
+ Serial.println(" ");
 }
-
-
-void resetRobotState() {
-  LT1 = true;
-  RT1 = false;
-  RT2 = false;
-  RT3 = false;
-  RT4 = false;
-  RT5 = false;
-  RT6 = false;
-  RT7 = false;
-  RT8 = false;
-  RT9 = false;
-  LT2 = false;
+ 
   
-}
   
   
