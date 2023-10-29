@@ -203,7 +203,3 @@ void node_follower(void){
  Serial.print(" ");
  Serial.println(" ");
 }
- 
-  
-  
-  
