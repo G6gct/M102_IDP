@@ -15,6 +15,8 @@ int distance_list_us[10]={2000,2000,2000,2000,2000,2000,2000,2000,2000,2000};
 int average_tof;
 int average_us;
 int index = 0;
+int LFSensorReading[4]={0, 0, 0, 0};  //zeroed array for storing line sensor readings
+
 //Define for port locations
 #define LED_BLINK 2
 #define LED_DEN_LOW 3
@@ -38,12 +40,10 @@ const int LINE_SENSOR_VRIGHT = 8;
 #define LINE_ON_LEFT 1       
 #define LINE_ON_RIGHT 2
 #define HORIZONTAL_LINE 3
-#define LINE_ON_VRIGHT 4
-#define LINE_ON_VLEFT 5
-#define RIGHT_CORNER 6
-#define LEFT_CORNER 7
-#define four_white 8
-#define IGNORE 9
+#define RIGHT_CORNER 4
+#define LEFT_CORNER 5
+#define four_white 6
+#define IGNORE 7
 
 #define in_box 0
 #define right_forward 1

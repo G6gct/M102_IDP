@@ -1,17 +1,3 @@
-
-
-/* Define different cases
-#define ON_LINE 0
-#define LINE_ON_LEFT 1       
-#define LINE_ON_RIGHT 2
-
-// Defining directions
-/* #define RIGHT 1
-#define LEFT -1 */
-
-
-int LFSensorReading[4]={0, 0, 0, 0};  //zeroed array for storing line sensor readings
-
 // Function for reading the line sensors and storing them in an array
 void LFSensorRead() {
   LFSensorReading[0] = digitalRead(LINE_SENSOR_VLEFT);
@@ -19,62 +5,24 @@ void LFSensorRead() {
   LFSensorReading[2] = digitalRead(LINE_SENSOR_RIGHT);
   LFSensorReading[3] = digitalRead(LINE_SENSOR_VRIGHT);
 // Code for printing out the line sensor readings and the current mode
-  /*for (int i=0; i<4; i++){
+  for (int i=0; i<4; i++){
     Serial.print(LFSensorReading[i]);
     Serial.print(" ");
   }
   Serial.println(" ");
-*/
 }
 
-
-/*0000z
-0001z
-0010z
-0100z
-1000z
-0011z
-0101u
-1001u IGNORE CASE
-0110?
-1010u
-1100z
-0111?
-1011z
-1101z
-1110?
-1111z
-*/
-
-
-/*line sensing logic
-0000 on line
-x010 line on right (1010*, 0010)
-xx01 line on very right (1101, 1001*, 0101*, 0001)
-010x line on left (0101*, 0100)
-10xx line on very left (1011, 1010*, 1001*, 1000)
-1111 Horizontal line/ T junction/ t junction
-0011 Right corner/ |--
-1100 Left corner/ --|
-
-how to discern between junctions with heads?
-*/
+// Function to differentiate sensor cases
 int junction = 0;
-
 void LineFollowStart() {
-  if (junction = 0) {
-  if((LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 1 ))  {cases = LINE_ON_RIGHT;}
-  else if((LFSensorReading[2]== 0 )&&(LFSensorReading[3]== 1 ))  {cases = LINE_ON_VRIGHT;} 
-  else if((LFSensorReading[1]== 1 )&&(LFSensorReading[2]== 0 ))  {cases = LINE_ON_LEFT;}
-  else if((LFSensorReading[0]== 1 )&&(LFSensorReading[1]== 0 ))  {cases = LINE_ON_VLEFT;}
-  else if((LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 0 ))  {cases = ON_LINE;}
-  else if(  (LFSensorReading[0]== 1 )&&(LFSensorReading[1]== 1 )&&(LFSensorReading[2]== 1 )&&(LFSensorReading[3]== 1))  
-  { cases = HORIZONTAL_LINE; } 
+  if((LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 1 ))  {cases = LINE_ON_RIGHT;} // line on the right, to adjust right
+  else if((LFSensorReading[1]== 1 )&&(LFSensorReading[2]== 0 ))  {cases = LINE_ON_LEFT;} // line on the left, to adjust left
+  else if((LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 0 ))  {cases = ON_LINE;} // on the line, no adjustments
+  else if(  (LFSensorReading[0]== 1 )&&(LFSensorReading[1]== 1 )&&(LFSensorReading[2]== 1 )&&(LFSensorReading[3]== 1))  { cases = HORIZONTAL_LINE; } // horizontal line found, turn right to adjust
   else {cases = IGNORE;}
   }
-}
 
- /* if(  (LFSensorReading[0]== 0 )&&(LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 1 )&&(LFSensorReading[3]== 1))
+   /* if(  (LFSensorReading[0]== 0 )&&(LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 1 )&&(LFSensorReading[3]== 1))
   { junction = 1; cases = RIGHT_CORNER;} 
 
   if(  (LFSensorReading[0]== 1 )&&(LFSensorReading[1]== 1 )&&(LFSensorReading[2]== 0 )&&(LFSensorReading[3]== 0))
@@ -83,6 +31,7 @@ void LineFollowStart() {
   
 
 
+// Function for line following and adjustment with switch cases
 void followLine(void) {
   LFSensorRead(); // calls the sensor reading
   LineFollowStart();  // calls the line sensors
@@ -102,16 +51,6 @@ void followLine(void) {
      case LINE_ON_RIGHT:
        Right();
        delay(delay_time);
-       break;
-
-    case LINE_ON_VRIGHT:
-       Right();
-       delay(delay_time/2);
-       break;
-    
-    case LINE_ON_VLEFT:
-       Left();
-       delay(delay_time/2);
        break;
 
     case RIGHT_CORNER:
@@ -181,25 +120,32 @@ void start(void){
       break;}
 }
   
-//hard-coded path navigation (go around the perimeter of the grid, detect block, reverse path to start
-
+// Blocks-on-corners path navigation (go around the perimeter of the grid, detect block, reverse path to start)
 int node = 0;
 int prev_node = -1;
-
 void node_follower(void){
   LFSensorRead(); // calls the sensor reading
   LineFollowStart();  // calls the line sensors
+  followLine(); // line following
 
- if(  (LFSensorReading[2]== 1 )&&(LFSensorReading[3]== 1))
-  { prev_node = node++;} 
-  else if(  (LFSensorReading[0]== 1 )&&(LFSensorReading[1]== 1 ))
-  { prev_node = node--;} 
-  else if(  (LFSensorReading[0]== 1 )&&(LFSensorReading[1]== 1 )&&(LFSensorReading[2]== 1 )&&(LFSensorReading[3]== 1)){
-  if (node - prev_node > 0) { prev_node = node++; }
-  else if (node - prev_node <0) { prev_node = node--;}
+  node++; // increment the node count
 
-  }
- Serial.print(node);
- Serial.print(" ");
- Serial.println(" ");
+  if (node == 1 || node == 11) {junction = 1; cases = LEFT_CORNER;}
+  else if (node == 2 || node == 5 || node == 6 || node == 7 || node == 10) {Forward();}
+  else if (node == 3 || node == 4 || node == 8 || node == 9) {junction = 2; cases = RIGHT_CORNER;}
+
+
+}
+
+void node_return(void){
+  LFSensorRead(); // calls the sensor reading
+  LineFollowStart();  // calls the line sensors
+  followLine();
+
+  node--; //decrement the node count
+
+  if (node == 1 || node == 11) {junction = 1; cases = RIGHT_CORNER;}
+  else if (node == 2 || node == 5 || node == 6 || node == 7 || node == 10) {Forward();}
+  else if (node == 3 || node == 4 || node == 8 || node == 9) {junction = 2; cases = LEFT_CORNER;}
+
 }

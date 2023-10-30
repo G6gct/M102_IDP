@@ -59,14 +59,25 @@ while (start_complete==0){
 }
 reset_pressed();
 update_sensor_history();
-node_follower();
-//dark_block_scan(50,-50);
+if ((LFSensorReading[0]== 1 )||(LFSensorReading[3]== 1)) {
+  node_follower();  
+}
 
+// TO ADD: within block detection, add such that after detection + LED signal, automatic 180 degree turn, move forward slightly with line following, then call node_return function.
+if ((is_block_detected = 1)&&(LFSensorReading[0]== 1 )||(LFSensorReading[3]== 1)) {
+  Turn180();
+  delay(60);
+  Forward();
+  delay(100);
+  node_return();
+}
+
+
+//dark_block_scan(50,-50);
 //distance_prints();
 //General_Run(120,-120);
 //block_possible();
 //dark_block_scan(120,-120);
-//FCpath();
 
 //to_green();
 if (LED_BLINKING == 1){
