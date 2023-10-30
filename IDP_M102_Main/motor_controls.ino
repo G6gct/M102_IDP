@@ -5,6 +5,7 @@ MotorR -> setSpeed(225);
 MotorL->run(FORWARD);
 MotorR->run(FORWARD);
 LED_BLINKING = 1;
+
 }
 
 void Backward(){
@@ -17,7 +18,7 @@ LED_BLINKING = 1;
 }
 
 void Left(){
-MotorL->setSpeed(200);
+MotorL->setSpeed(100);
 MotorR -> setSpeed(200);
 MotorL->run(BACKWARD);
 MotorR->run(FORWARD);
@@ -27,7 +28,7 @@ LED_BLINKING = 1;
 
 void Right(){
 MotorL->setSpeed(200);
-MotorR -> setSpeed(200);
+MotorR -> setSpeed(100);
 MotorL->run(FORWARD);
 MotorR->run(BACKWARD);  
 delay(20);
@@ -67,31 +68,30 @@ void General_Run(int speed1, int speed2){
 void Right90(){
   delay(400);
   General_Run(255,-150);
-  delay(1200);
+  delay(1100);
   Stop();
 
 }
 
 void Left90(){
   delay(400);
-  General_Run(-150,255);
+  General_Run(-255,255);
   //Serial.print("HI");
-  delay(1200);
+  delay(1000);
   Stop();
   //Serial.print("Delayed");
 }
 void Turn180(){
   delay(400);
-  General_Run(255,-150);
-  delay(2400);
+  General_Run(150,-150);
+  delay(4100);
   Stop();
 }
 
-void to_green(){
-  Left90();
+void to_box(){
   Forward();
-  delay(5100);
+  delay(4850);
   Backward();
-  delay(5100);
-  Stop();
+  delay(4850);
+
 }

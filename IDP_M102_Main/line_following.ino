@@ -5,11 +5,11 @@ void LFSensorRead() {
   LFSensorReading[2] = digitalRead(LINE_SENSOR_RIGHT);
   LFSensorReading[3] = digitalRead(LINE_SENSOR_VRIGHT);
 // Code for printing out the line sensor readings and the current mode
-  for (int i=0; i<4; i++){
+ /* for (int i=0; i<4; i++){
     Serial.print(LFSensorReading[i]);
     Serial.print(" ");
   }
-  Serial.println(" ");
+  Serial.println(" ");*/
 }
 
 // Function to differentiate sensor cases
@@ -18,9 +18,10 @@ void LineFollowStart() {
   if((LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 1 ))  {cases = LINE_ON_RIGHT;} // line on the right, to adjust right
   else if((LFSensorReading[1]== 1 )&&(LFSensorReading[2]== 0 ))  {cases = LINE_ON_LEFT;} // line on the left, to adjust left
   else if((LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 0 ))  {cases = ON_LINE;} // on the line, no adjustments
-  else if(  (LFSensorReading[0]== 1 )&&(LFSensorReading[1]== 1 )&&(LFSensorReading[2]== 1 )&&(LFSensorReading[3]== 1))  { cases = HORIZONTAL_LINE; } // horizontal line found, turn right to adjust
+  //else if(  (LFSensorReading[0]== 1 )&&(LFSensorReading[1]== 1 )&&(LFSensorReading[2]== 1 )&&(LFSensorReading[3]== 1))  { cases = HORIZONTAL_LINE; } // horizontal line found, turn right to adjust
   else {cases = IGNORE;}
-  }
+  
+}
 
    /* if(  (LFSensorReading[0]== 0 )&&(LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 1 )&&(LFSensorReading[3]== 1))
   { junction = 1; cases = RIGHT_CORNER;} 
@@ -44,11 +45,13 @@ void followLine(void) {
        break;
 
      case LINE_ON_LEFT:
+       delay(100);
        Left();
        delay(delay_time);
        break;
      
      case LINE_ON_RIGHT:
+       delay(100);
        Right();
        delay(delay_time);
        break;
@@ -119,33 +122,114 @@ void start(void){
       start_complete = 1;
       break;}
 }
+void lineadjust(void){
+  LFSensorRead();
+  StartingCases();
+  switch (Scases) {
+    case in_box:
+      Forward();
+      delay(delay_time);
+      break;
+
+    case right_forward:
+      General_Run(100,-100);
+      delay(delay_time);
+      break;
+
+    case left_forward:
+      General_Run(-100,100);
+      delay(delay_time);
+      break;
+
+    case IGNORE:
+       Forward();
+       delay(delay_time/2);
+       break;
+
+    case on_line:
+      Forward();
+      delay(300);
+      Stop();
+      delay(delay_time);
+      //General_Run(150,150);
+      line_adjustment = 1;
+      break;}
+}
   
 // Blocks-on-corners path navigation (go around the perimeter of the grid, detect block, reverse path to start)
-int node = 0;
+
 int prev_node = -1;
 void node_follower(void){
   LFSensorRead(); // calls the sensor reading
   LineFollowStart();  // calls the line sensors
-  followLine(); // line following
 
   node++; // increment the node count
+  Serial.print(node);
+  Serial.println(" ");
 
   if (node == 1 || node == 11) {junction = 1; cases = LEFT_CORNER;}
-  else if (node == 2 || node == 5 || node == 6 || node == 7 || node == 10) {Forward();}
+  else if (node == 0 || node == 2 || node == 5 || node == 6 || node == 7 || node == 10) {cases = ON_LINE;}
   else if (node == 3 || node == 4 || node == 8 || node == 9) {junction = 2; cases = RIGHT_CORNER;}
 
+  switch (cases) {
+
+     case ON_LINE:
+       Forward();
+       delay(500);
+       break;
+
+    case RIGHT_CORNER:
+       delay(400);
+       Stop();
+       delay(500);
+       Right90();
+       delay(500);
+       break;
+    
+    case LEFT_CORNER:
+       delay(400);
+       Stop();
+       delay(500);
+       Left90();
+       delay(500);
+       break;
+
+  }
+     
 
 }
 
 void node_return(void){
   LFSensorRead(); // calls the sensor reading
   LineFollowStart();  // calls the line sensors
-  followLine();
 
   node--; //decrement the node count
-
+  Serial.print(node);
+  Serial.println(" ");
   if (node == 1 || node == 11) {junction = 1; cases = RIGHT_CORNER;}
-  else if (node == 2 || node == 5 || node == 6 || node == 7 || node == 10) {Forward();}
+  else if (node == 2 || node == 5 || node == 6 || node == 7 || node == 10) {cases = ON_LINE;}
   else if (node == 3 || node == 4 || node == 8 || node == 9) {junction = 2; cases = LEFT_CORNER;}
 
+  switch (cases) {
+
+     case ON_LINE:
+       Forward();
+       delay(500);
+       break;
+
+    case RIGHT_CORNER:
+       Stop();
+       delay(500);
+       Right90();
+       delay(500);
+       break;
+    
+    case LEFT_CORNER:
+       Stop();
+       delay(500);
+       Left90();
+       delay(500);
+       break;
+
+  }
 }

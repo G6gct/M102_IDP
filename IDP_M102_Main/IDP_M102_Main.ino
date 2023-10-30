@@ -43,34 +43,70 @@ pinMode(START_BUTTON, INPUT);
 pinMode(RESET_BUTTON,INPUT);
 
 }
-// We must add code to bring block back to start and reset the block history, could ad a block check function to be run to ensure the block is not lost so that if it is, it doesnt waste time looking for it.
+
+
+
 void loop(){ //Looping code
+
 while(start_button == 0){
   button_pressed();
-if (LED_BLINKING == 1){
-digitalWrite(LED_BLINK, (millis() / 250) % 2);}
-}
-if(reset_button == 1){
-  resetFunc();
-}
+  }
+/*
 while (start_complete==0){
   start();
-  reset_pressed();
-}
+  }
+  */
 reset_pressed();
+if(reset_button == 1){
+  resetFunc();
+  }
+
+block_drop_off();
+delay(50000);
+/*  
 update_sensor_history();
-if ((LFSensorReading[0]== 1 )||(LFSensorReading[3]== 1)) {
-  node_follower();  
+block_possible();
+
+followLine();
+if ((block_stopped_history == 0)&&(LFSensorReading[3]== 1)) { //While no block, go in a clockwise path
+    node_follower();  
+    reset_pressed();
+  }
+if ((block_stopped_history == 1)&&(LFSensorReading[0]== 1 )) {
+    node_return();
+    reset_pressed();
+  }
+*/
+
+
+if (LED_BLINKING == 1){
+digitalWrite(LED_BLINK, (millis() / 250) % 2);}
+
 }
 
-// TO ADD: within block detection, add such that after detection + LED signal, automatic 180 degree turn, move forward slightly with line following, then call node_return function.
-if ((is_block_detected = 1)&&(LFSensorReading[0]== 1 )||(LFSensorReading[3]== 1)) {
-  Turn180();
-  delay(60);
-  Forward();
-  delay(100);
-  node_return();
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 //dark_block_scan(50,-50);
@@ -80,8 +116,3 @@ if ((is_block_detected = 1)&&(LFSensorReading[0]== 1 )||(LFSensorReading[3]== 1)
 //dark_block_scan(120,-120);
 
 //to_green();
-if (LED_BLINKING == 1){
-digitalWrite(LED_BLINK, (millis() / 250) % 2);}
-
-}
-

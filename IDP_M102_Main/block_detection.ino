@@ -70,8 +70,6 @@ void block_possible(){ //checkes if a block is near using the TOF sensor
 
   if (x<10){
     is_block_detected =1;
-    Serial.print("block is present");
-    Serial.println(" ");
     block_stop();
   }
   else {
@@ -84,17 +82,20 @@ void block_detected(){
   Serial.print("                      ");
   Serial.print(average_distance_US());
   Serial.println("          ");*/
-  if (average_distance_TOF()<20 && average_distance_US()<10){
+  if (average_distance_TOF()<20 && average_distance_US()<10){ //Low density
     digitalWrite(LED_DEN_LOW,HIGH);
     digitalWrite(LED_DEN_HIGH,LOW);}
     is_block_detected = 1;
-  if (average_distance_TOF()<20&& average_distance_US()>10){
+    blocktype = 1;
+  if (average_distance_TOF()<20&& average_distance_US()>10){ //High density
      digitalWrite(LED_DEN_HIGH,HIGH);
      digitalWrite(LED_DEN_LOW,LOW);}
      is_block_detected = 1;
+     blocktype = 2;
   if (average_distance_TOF()>20&& average_distance_US()>10){
     digitalWrite(LED_DEN_LOW,LOW);
     digitalWrite(LED_DEN_HIGH,LOW);
+    blocktype = 0;
     is_block_detected = 0;
   }
 }
@@ -108,6 +109,8 @@ void block_stop(){
       }
       block_detected();
       delay(5000);
+      Turn180();
+      node++;
     }
 }
 
@@ -145,21 +148,24 @@ void dark_block_scan(int spd1,int spd2){ //need to make another function similar
      //need to calibrate both Turn180 and Forward so that it doesnt go off course
   } //after the function has been called, it should have either done a 90 degree turn or gone and retrieved a block and returned roughly to the same place with requirement of turning or returned without a block
   Stop();} // A function to test wheter or not there is a block can now be called to indentify what it has 
-/*
-void detection_diffeence(){
-  //cases only for competiton 1
-  int diff =  abs(distance_detection_TOF()- distance_detection_US())
-  if(diff >40) {detect = NOTHING;}
-  else if(5<diff<40){detect = POSSIBLE;}
-  else if diff < 5 {detect = BLOCK;} 
-  switch (detect){
-    case NOTHING
-      break;
-    case POSSIBLE;
-     //do something
-     break;
-     case BLOCK;
-    //some sort of code to indentify the block type
-     //code to return to start
+
+
+void block_drop_off(){
+  line_adjustment =0;
+  if (blocktype == 1){
+    Left90();
   }
-}*/
+  else if (blocktype == 2){
+    Right90();
+  }
+  while(line_adjustment == 0){  //Adjust to be on the line
+  lineadjust();
+  }
+  to_box();
+  if (blocktype == 1){
+    Left90();
+  }
+  else if (blocktype == 2){
+    Right90();
+  }
+}

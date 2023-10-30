@@ -15,8 +15,10 @@ int distance_list_us[10]={2000,2000,2000,2000,2000,2000,2000,2000,2000,2000};
 int average_tof;
 int average_us;
 int index = 0;
+int node = 0;
 int LFSensorReading[4]={0, 0, 0, 0};  //zeroed array for storing line sensor readings
-
+int blocktype = 0;
+int line_adjustment =0;
 //Define for port locations
 #define LED_BLINK 2
 #define LED_DEN_LOW 3
