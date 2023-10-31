@@ -88,10 +88,8 @@ void Right75(){
 void Left90(){
   delay(400);
   General_Run(-150,255);
-  //Serial.print("HI");
   delay(1200);
   Stop();
-  //Serial.print("Delayed");
 }
 void Turn180(){
   delay(400);
