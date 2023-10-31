@@ -51,33 +51,28 @@ void loop(){ //Looping code
 while(start_button == 0){
   button_pressed();
   }
-/*
-while (start_complete==0){
-  start();
+while (blocks_dropped < 2){
+  while (start_complete==0){
+    start();
   }
-  */
-reset_pressed();
-if(reset_button == 1){
-  resetFunc();
+  reset_pressed();
+  if(reset_button == 1){
+    resetFunc();
   }
-
-block_drop_off();
-delay(50000);
-/*  
-update_sensor_history();
-block_possible();
-
-followLine();
-if ((block_stopped_history == 0)&&(LFSensorReading[3]== 1)) { //While no block, go in a clockwise path
+  update_sensor_history();
+  block_possible();
+  followLine();
+  if ((block_stopped_history == 0)&&(LFSensorReading[3]== 1)) { //While no block, go in a clockwise path
     node_follower();  
     reset_pressed();
   }
-if ((block_stopped_history == 1)&&(LFSensorReading[0]== 1 )) {
+  if ((block_stopped_history == 1)&&(LFSensorReading[0]== 1 )) {
     node_return();
     reset_pressed();
   }
-*/
 
+
+}
 
 if (LED_BLINKING == 1){
 digitalWrite(LED_BLINK, (millis() / 250) % 2);}

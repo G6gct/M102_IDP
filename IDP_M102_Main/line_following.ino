@@ -47,13 +47,11 @@ void followLine(void) {
      case LINE_ON_LEFT:
        delay(100);
        Left();
-       delay(delay_time);
        break;
      
      case LINE_ON_RIGHT:
        delay(100);
        Right();
-       delay(delay_time);
        break;
 
     case RIGHT_CORNER:
@@ -209,6 +207,7 @@ void node_return(void){
   if (node == 1 || node == 11) {junction = 1; cases = RIGHT_CORNER;}
   else if (node == 2 || node == 5 || node == 6 || node == 7 || node == 10) {cases = ON_LINE;}
   else if (node == 3 || node == 4 || node == 8 || node == 9) {junction = 2; cases = LEFT_CORNER;}
+  else if (node == 0) {junction = 1; cases = START_BOX;}
 
   switch (cases) {
 
@@ -229,6 +228,15 @@ void node_return(void){
        delay(500);
        Left90();
        delay(500);
+       break;
+    
+    case START_BOX:
+       Stop();
+       delay(500);
+       Forward();
+       delay(1000);
+       Stop();
+       block_drop_off();
        break;
 
   }

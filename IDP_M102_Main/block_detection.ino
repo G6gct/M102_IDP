@@ -98,6 +98,9 @@ void block_detected(){
     blocktype = 0;
     is_block_detected = 0;
   }
+  Serial.print("Block type is ");
+  Serial.print(blocktype);
+  Serial.println("");
 }
 void block_stop(){
     if (block_stopped_history == 0){
@@ -108,9 +111,11 @@ void block_stop(){
         update_sensor_history();
       }
       block_detected();
-      delay(5000);
+      Forward();
+      delay(500);
       Turn180();
       node++;
+    
     }
 }
 
@@ -151,6 +156,8 @@ void dark_block_scan(int spd1,int spd2){ //need to make another function similar
 
 
 void block_drop_off(){
+  Serial.print(blocktype);
+  Serial.println("    ");
   line_adjustment =0;
   if (blocktype == 1){
     Left90();
@@ -168,4 +175,11 @@ void block_drop_off(){
   else if (blocktype == 2){
     Right90();
   }
+  blocks_dropped++;
+  start_complete = 0;
+  block_stopped_history = 0;
+  digitalWrite(LED_DEN_LOW,LOW);
+  digitalWrite(LED_DEN_HIGH,LOW);
+  for (int i = 0; i <= 11; i++) {
+  update_sensor_history();}
 }

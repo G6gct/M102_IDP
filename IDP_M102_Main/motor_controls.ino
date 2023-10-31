@@ -1,38 +1,41 @@
 //Motor Controls 
 void Forward(){
 MotorL->setSpeed(225);
-MotorR -> setSpeed(225);
+MotorR -> setSpeed(210);
 MotorL->run(FORWARD);
 MotorR->run(FORWARD);
 LED_BLINKING = 1;
-
+digitalWrite(LED_BLINK, (millis() / 250) % 2);
 }
 
 void Backward(){
-MotorL->setSpeed(255);
-MotorR -> setSpeed(255);
+MotorL->setSpeed(225);
+MotorR -> setSpeed(210);
 MotorL->run(BACKWARD);
 MotorR->run(BACKWARD);
 LED_BLINKING = 1;
+digitalWrite(LED_BLINK, (millis() / 250) % 2);
 
 }
 
 void Left(){
 MotorL->setSpeed(100);
-MotorR -> setSpeed(200);
+MotorR -> setSpeed(180);
 MotorL->run(BACKWARD);
 MotorR->run(FORWARD);
 delay(20);
 LED_BLINKING = 1;
+digitalWrite(LED_BLINK, (millis() / 250) % 2);
 }
 
 void Right(){
-MotorL->setSpeed(200);
+MotorL->setSpeed(180);
 MotorR -> setSpeed(100);
 MotorL->run(FORWARD);
 MotorR->run(BACKWARD);  
 delay(20);
 LED_BLINKING = 1;
+digitalWrite(LED_BLINK, (millis() / 250) % 2);
 }
 
 void Stop(){
@@ -42,6 +45,7 @@ MotorL->run(FORWARD);
 MotorR->run(FORWARD);   
 delay(20);
 LED_BLINKING = 0;
+
 }
 
 void General_Run(int speed1, int speed2){
@@ -62,29 +66,30 @@ void General_Run(int speed1, int speed2){
     MotorR->run(BACKWARD);
   }
   LED_BLINKING = 1;
+  digitalWrite(LED_BLINK, (millis() / 250) % 2);
  // Serial.print("general");
 }
 
 void Right90(){
   delay(400);
   General_Run(255,-150);
-  delay(1100);
+  delay(1150);
   Stop();
 
 }
 
 void Left90(){
   delay(400);
-  General_Run(-255,255);
+  General_Run(-150,255);
   //Serial.print("HI");
-  delay(1000);
+  delay(1200);
   Stop();
   //Serial.print("Delayed");
 }
 void Turn180(){
   delay(400);
   General_Run(150,-150);
-  delay(4100);
+  delay(4300);
   Stop();
 }
 
