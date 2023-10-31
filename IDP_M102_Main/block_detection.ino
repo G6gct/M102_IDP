@@ -84,19 +84,23 @@ void block_detected(){
   Serial.println("          ");*/
   if (average_distance_TOF()<20 && average_distance_US()<10){ //Low density
     digitalWrite(LED_DEN_LOW,HIGH);
-    digitalWrite(LED_DEN_HIGH,LOW);}
+    digitalWrite(LED_DEN_HIGH,LOW);
     is_block_detected = 1;
     blocktype = 1;
+    Serial.print("Low den");
+    Serial.print(blocktype);
+    Serial.println(" ");}
   if (average_distance_TOF()<20&& average_distance_US()>10){ //High density
      digitalWrite(LED_DEN_HIGH,HIGH);
-     digitalWrite(LED_DEN_LOW,LOW);}
+     digitalWrite(LED_DEN_LOW,LOW);
      is_block_detected = 1;
-     blocktype = 2;
+     blocktype = 2;}
   if (average_distance_TOF()>20&& average_distance_US()>10){
     digitalWrite(LED_DEN_LOW,LOW);
     digitalWrite(LED_DEN_HIGH,LOW);
     blocktype = 0;
     is_block_detected = 0;
+    block_stopped_history = 0;
   }
   Serial.print("Block type is ");
   Serial.print(blocktype);
@@ -111,10 +115,14 @@ void block_stop(){
         update_sensor_history();
       }
       block_detected();
+      if(blocktype != 0){
       Forward();
       delay(500);
       Turn180();
-      node++;
+      Backward();
+      delay(500);
+      Stop();
+      node++;}
     
     }
 }
@@ -175,6 +183,8 @@ void block_drop_off(){
   else if (blocktype == 2){
     Right90();
   }
+  Backward();
+  delay(500);
   blocks_dropped++;
   start_complete = 0;
   block_stopped_history = 0;
@@ -182,4 +192,24 @@ void block_drop_off(){
   digitalWrite(LED_DEN_HIGH,LOW);
   for (int i = 0; i <= 11; i++) {
   update_sensor_history();}
+}
+
+void victory_dance(){
+ for (int i=0; i<100; i++){
+  if(i%3 == 1){
+  digitalWrite(LED_DEN_LOW,HIGH);
+  digitalWrite(LED_DEN_HIGH,LOW);
+  digitalWrite(LED_BLINK,LOW);
+  delay(100);
+  }
+  if (i%3 == 2){digitalWrite(LED_DEN_LOW,LOW);
+  digitalWrite(LED_DEN_HIGH,HIGH);
+  digitalWrite(LED_BLINK,LOW);
+  delay(100);}
+  if (i%3 == 0){digitalWrite(LED_DEN_LOW,LOW);
+  digitalWrite(LED_DEN_HIGH,LOW);
+  digitalWrite(LED_BLINK,HIGH);
+  delay(100);}
+}
+ended = 1;
 }

@@ -73,9 +73,20 @@ while (blocks_dropped < 2){
 
 
 }
+line_adjustment = 0;
+while (line_adjustment == 0){
+lineadjust();}
 
-if (LED_BLINKING == 1){
-digitalWrite(LED_BLINK, (millis() / 250) % 2);}
+if (ended == 0){
+  Backward();
+  delay(500);
+  Stop();
+  victory_dance();
+}
+
+delay(600000);
+//if (LED_BLINKING == 1){
+//digitalWrite(LED_BLINK, (millis() / 250) % 2);}
 
 }
 

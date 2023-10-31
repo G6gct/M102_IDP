@@ -77,6 +77,13 @@ void Right90(){
   Stop();
 
 }
+void Right75(){
+  delay(400);
+  General_Run(255,-150);
+  delay(900);
+  Stop();
+
+}
 
 void Left90(){
   delay(400);

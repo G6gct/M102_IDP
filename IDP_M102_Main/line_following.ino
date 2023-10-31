@@ -167,7 +167,8 @@ void node_follower(void){
 
   if (node == 1 || node == 11) {junction = 1; cases = LEFT_CORNER;}
   else if (node == 0 || node == 2 || node == 5 || node == 6 || node == 7 || node == 10) {cases = ON_LINE;}
-  else if (node == 3 || node == 4 || node == 8 || node == 9) {junction = 2; cases = RIGHT_CORNER;}
+  else if (node == 3 || node == 8) {junction = 2; cases = RIGHT_CORNER;}
+  else if (node==4 || node ==9) {cases = RIGHT_CORNER_ADJUST;}
 
   switch (cases) {
 
@@ -179,17 +180,25 @@ void node_follower(void){
     case RIGHT_CORNER:
        delay(400);
        Stop();
-       delay(500);
+       //delay(500);
        Right90();
-       delay(500);
+       //delay(500);
        break;
-    
+    case RIGHT_CORNER_ADJUST:
+    {
+      delay(400);
+      Stop();
+      //delay(500);
+      Right75();
+      //delay(500);
+      break;
+    }
     case LEFT_CORNER:
        delay(400);
        Stop();
-       delay(500);
+       //delay(500);
        Left90();
-       delay(500);
+       //delay(500);
        break;
 
   }
@@ -219,7 +228,7 @@ void node_return(void){
     case RIGHT_CORNER:
        Stop();
        delay(500);
-       Right90();
+       Right75();
        delay(500);
        break;
     
@@ -232,12 +241,30 @@ void node_return(void){
     
     case START_BOX:
        Stop();
-       delay(500);
+       centerLine();
        Forward();
-       delay(1000);
+       delay(1750);
        Stop();
        block_drop_off();
        break;
 
+  }
+}
+
+
+void centerLine(void) {
+LFSensorRead(); // calls the sensor reading
+LineFollowStart();  // calls the line sensors
+  switch (cases)
+   {
+     case LINE_ON_LEFT:
+       delay(100);
+       Left();
+       break;
+     
+     case LINE_ON_RIGHT:
+       delay(100);
+       Right();
+       break;
   }
 }
