@@ -77,7 +77,7 @@ void block_possible(){ //checkes if a block is near using the TOF sensor
   }
 }
 
-void block_detected(){
+void block_detected(){ //Lights up the correct LED for when the block is detected
  /* Serial.print(average_distance_TOF());
   Serial.print("                      ");
   Serial.print(average_distance_US());

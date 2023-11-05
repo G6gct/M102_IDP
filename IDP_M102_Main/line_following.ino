@@ -1,5 +1,5 @@
 // Function for reading the line sensors and storing them in an array
-void LFSensorRead() {
+void LFSensorRead() { 
   LFSensorReading[0] = digitalRead(LINE_SENSOR_VLEFT);
   LFSensorReading[1] = digitalRead(LINE_SENSOR_LEFT);
   LFSensorReading[2] = digitalRead(LINE_SENSOR_RIGHT);
@@ -14,7 +14,7 @@ void LFSensorRead() {
 
 // Function to differentiate sensor cases
 int junction = 0;
-void LineFollowStart() {
+void LineFollowStart() { //Define cases for when the robot exits the starting box
   if((LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 1 ))  {cases = LINE_ON_RIGHT;} // line on the right, to adjust right
   else if((LFSensorReading[1]== 1 )&&(LFSensorReading[2]== 0 ))  {cases = LINE_ON_LEFT;} // line on the left, to adjust left
   else if((LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 0 ))  {cases = ON_LINE;} // on the line, no adjustments
@@ -80,14 +80,14 @@ void followLine(void) {
 }
 
 // Starting motion from intial box to first intersection
-void StartingCases(){
+void StartingCases(){ // Define the cases the robot may run into
   if     ((LFSensorReading[3]==1) && (LFSensorReading[0]==0))   {Scases = right_forward;}
   else if ((LFSensorReading[0]== 0 )&&(LFSensorReading[1]== 0 )&&(LFSensorReading[2]== 0) &&(LFSensorReading[3]== 0 )){Scases = in_box;}
   else if ((LFSensorReading[3]==0) && (LFSensorReading[0]== 1)) {Scases = left_forward;}
   else if ((LFSensorReading[0]== 1 )&&(LFSensorReading[1]== 1 )&&(LFSensorReading[2]== 1) &&(LFSensorReading[3]== 1 )){Scases = on_line;}
   else {Scases = IGNORE;}
 }
-void start(void){
+void start(void){ // How to exit the start box
   LFSensorRead();
   StartingCases();
   switch (Scases) {
@@ -120,7 +120,7 @@ void start(void){
       start_complete = 1;
       break;}
 }
-void lineadjust(void){
+void lineadjust(void){ // Line the robot up with a line
   LFSensorRead();
   StartingCases();
   switch (Scases) {
@@ -157,7 +157,7 @@ void lineadjust(void){
 // Blocks-on-corners path navigation (go around the perimeter of the grid, detect block, reverse path to start)
 
 int prev_node = -1;
-void node_follower(void){
+void node_follower(void){ // Code to go round clockwise around the circuit
   LFSensorRead(); // calls the sensor reading
   LineFollowStart();  // calls the line sensors
 
@@ -206,7 +206,7 @@ void node_follower(void){
 
 }
 
-void node_return(void){
+void node_return(void){ //Code to go round anticlockwise on the track
   LFSensorRead(); // calls the sensor reading
   LineFollowStart();  // calls the line sensors
 
@@ -252,7 +252,7 @@ void node_return(void){
 }
 
 
-void centerLine(void) {
+void centerLine(void) { //assists in centering the robot when stationary
 LFSensorRead(); // calls the sensor reading
 LineFollowStart();  // calls the line sensors
   switch (cases)

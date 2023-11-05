@@ -59,20 +59,33 @@ const int LINE_SENSOR_VRIGHT = 8;
 #define RIGHT 1
 #define LEFT -1
 
-// Prototype fucntions  (Not all have been declared which is probably bad practice)
+// Prototype fucntions  
 // Line Following
 void LFSensorRead();
 void LineSensorStart();
 void followLine();
 void StartingCases();
 void start();
-
+void lineadjust();
+void node_follower();
+void node_return();
+void centerLine();
 //Block Detection
 int distance_detection_TOF();
 int distance_detection_US();
 void button_pressed();
-
-
+void reset_pressed();
+void distance_prints();
+void update_sensor_history();
+int average_distance_TOF();
+int average_distance_US();
+void block_possible();
+void block_detected();
+void block_stop();
+void reset_block_stop();
+void dark_block_scan();
+void block_drop_off();
+void victory_dance();
 //Motor Controls
 void Forward();
 void Backward();
@@ -81,5 +94,9 @@ void Right();
 void Stop();
 void General_Run();
 void Right90();
+void Right75();
 void Left90();
+void Left105();
 void Turn180();
+void to_box_red();
+void to_box_green();
