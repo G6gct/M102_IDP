@@ -80,7 +80,7 @@ void Right90(){
 void Right75(){
   delay(400);
   General_Run(255,-150);
-  delay(900);
+  delay(1050);
   Stop();
 
 }
@@ -91,6 +91,12 @@ void Left90(){
   delay(1200);
   Stop();
 }
+void Left105(){
+  delay(400);
+  General_Run(-150,255);
+  delay(1400);
+  Stop();
+}
 void Turn180(){
   delay(400);
   General_Run(150,-150);
@@ -98,10 +104,17 @@ void Turn180(){
   Stop();
 }
 
-void to_box(){
-  Forward();
+void to_box_red(){
+  General_Run(225,210);
   delay(4850);
-  Backward();
+  General_Run(-225,-210);
+  delay(4850);
+
+}
+void to_box_green(){
+  General_Run(215,210);
+  delay(4850);
+  General_Run(-215,-210);
   delay(4850);
 
 }

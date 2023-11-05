@@ -197,7 +197,7 @@ void node_follower(void){
        delay(400);
        Stop();
        //delay(500);
-       Left90();
+       Left105();
        //delay(500);
        break;
 
@@ -243,7 +243,7 @@ void node_return(void){
        Stop();
        centerLine();
        Forward();
-       delay(1750);
+       delay(1500);
        Stop();
        block_drop_off();
        break;

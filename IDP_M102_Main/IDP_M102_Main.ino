@@ -79,7 +79,7 @@ lineadjust();}
 
 if (ended == 0){
   Backward();
-  delay(500);
+  delay(1000);
   Stop();
   victory_dance();
 }

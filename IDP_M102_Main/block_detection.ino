@@ -116,6 +116,7 @@ void block_stop(){
       }
       block_detected();
       if(blocktype != 0){
+      delay(5000);
       Forward();
       delay(500);
       Turn180();
@@ -167,8 +168,11 @@ void block_drop_off(){
   Serial.print(blocktype);
   Serial.println("    ");
   line_adjustment =0;
+  block_detected();
   if (blocktype == 1){
     Left90();
+    Backward();
+    delay(500);
   }
   else if (blocktype == 2){
     Right90();
@@ -176,11 +180,18 @@ void block_drop_off(){
   while(line_adjustment == 0){  //Adjust to be on the line
   lineadjust();
   }
-  to_box();
+  Backward();
+  delay(500);
+  line_adjustment =0;
+  while(line_adjustment == 0){  //Adjust to be on the line
+  lineadjust();
+  }
   if (blocktype == 1){
+    to_box_red();
     Left90();
   }
   else if (blocktype == 2){
+    to_box_green();
     Right90();
   }
   Backward();
