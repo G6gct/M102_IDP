@@ -48,7 +48,7 @@ LED_BLINKING = 0;
 
 }
 
-void General_Run(int speed1, int speed2){
+void General_Run(int speed1, int speed2){ // General speed function to be used when you want to experiment
   if (speed1 >=0){
     MotorL->setSpeed(speed1);
     MotorL->run(FORWARD);
@@ -104,14 +104,14 @@ void Turn180(){
   Stop();
 }
 
-void to_box_red(){
+void to_box_red(){ // To high density block from the starting box
   General_Run(225,210);
   delay(4850);
   General_Run(-225,-210);
   delay(4850);
 
 }
-void to_box_green(){
+void to_box_green(){ // To low density block from the starting box
   General_Run(215,210);
   delay(4850);
   General_Run(-215,-210);

@@ -10,19 +10,19 @@ int distance_detection_US(){ //Update distance of US
   dist_t = sensity_t * MAX_RANG / ADC_SOLUTION;
   return(dist_t);
 }
-void button_pressed(){ //Checks whether or not the button has initiated the program
+void button_pressed(){ //Checks whether or not the start button has initiated the program
   int val = digitalRead(START_BUTTON);
   if (val == HIGH){
     start_button = 1;
   }
 }
-void reset_pressed(){
+void reset_pressed(){ // Check if the reset button has been pressed
   int val = digitalRead(RESET_BUTTON);
   if (val == HIGH){
     reset_button = 1;
   }
 }
-void distance_prints(){ //Use this function to check the readings
+void distance_prints(){ //Use this function to check and print the readings
 Serial.print("Time of flight reading: ");
 Serial.print(distance_detection_TOF());
 Serial.print("      Ultrasonic reading: ");
@@ -35,7 +35,7 @@ Serial.println(" ");
 //delay(500);
 }
 
-void update_sensor_history(){ //Update the array of length 10 of the sensors
+void update_sensor_history(){ //Update the array of length 10 of the sensors to get a moving list
   index  = index + 1;
   int TOF_read = distance_detection_TOF();
   int US_read = distance_detection_US();
@@ -95,18 +95,18 @@ void block_detected(){
      digitalWrite(LED_DEN_LOW,LOW);
      is_block_detected = 1;
      blocktype = 2;}
-  if (average_distance_TOF()>20&& average_distance_US()>10){
+  if (average_distance_TOF()>20&& average_distance_US()>10){ //Ghost block
     digitalWrite(LED_DEN_LOW,LOW);
     digitalWrite(LED_DEN_HIGH,LOW);
     blocktype = 0;
     is_block_detected = 0;
     block_stopped_history = 0;
   }
-  Serial.print("Block type is ");
+  /*Serial.print("Block type is ");
   Serial.print(blocktype);
-  Serial.println("");
+  Serial.println("");*/
 }
-void block_stop(){
+void block_stop(){      // This function is called when the block is detected, it is coded such that it does a 180 and ensures it doesnt skip a node
     if (block_stopped_history == 0){
       block_stopped_history = 1;
       Stop();
@@ -128,11 +128,10 @@ void block_stop(){
     }
 }
 
-void reset_block_stop(){
+void reset_block_stop(){  
   block_stopped_history = 0;}
 
-void dark_block_scan(int spd1,int spd2){ //need to make another function similar to block similar for this case and for it not to be called once the blocks on the intersections have been found as it causes the robot to stop. 
-//Call this function when your at the corner of a junction, specify the motor speeds
+void dark_block_scan(int spd1,int spd2){  //Function for searching the blocks in the dark area (This code was not used.)
   int distance_from_corner = average_distance_TOF();
   int initial_time = millis();
   int time_passed =millis();
@@ -159,12 +158,11 @@ void dark_block_scan(int spd1,int spd2){ //need to make another function similar
     Turn180();
     Forward();
     delay(time_passed-initial_time);
-     //need to calibrate both Turn180 and Forward so that it doesnt go off course
-  } //after the function has been called, it should have either done a 90 degree turn or gone and retrieved a block and returned roughly to the same place with requirement of turning or returned without a block
+  }
   Stop();} // A function to test wheter or not there is a block can now be called to indentify what it has 
 
 
-void block_drop_off(){
+void block_drop_off(){   //Code to be run once the block has been transported back to the starting box
   Serial.print(blocktype);
   Serial.println("    ");
   line_adjustment =0;
@@ -205,7 +203,7 @@ void block_drop_off(){
   update_sensor_history();}
 }
 
-void victory_dance(){
+void victory_dance(){ // Fun dance for the robot
  for (int i=0; i<100; i++){
   if(i%3 == 1){
   digitalWrite(LED_DEN_LOW,HIGH);

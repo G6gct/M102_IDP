@@ -59,8 +59,7 @@ const int LINE_SENSOR_VRIGHT = 8;
 #define RIGHT 1
 #define LEFT -1
 
-// Importing functions in this file for use in main programme
-
+// Prototype fucntions  (Not all have been declared which is probably bad practice)
 // Line Following
 void LFSensorRead();
 void LineSensorStart();
